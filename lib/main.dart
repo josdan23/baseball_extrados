@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 import 'package:baseball_cards/screens/home_screen.dart';
 
+import 'screens/home_2_screen.dart';
+
 
 void main() {
 
@@ -17,10 +19,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: 'details',
+      initialRoute: 'home',
       routes: {
         
-        'home'      : ( BuildContext context ) => HomeScreen(),
+        'home'      : ( BuildContext context ) => Home2Screen(),
         'details'   : (BuildContext context ) => DetailsScreen(),
 
       },

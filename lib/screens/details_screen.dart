@@ -10,6 +10,7 @@ class DetailsScreen extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+      
         elevation: 0,
         backgroundColor: Colors.transparent,
         title: Column(children: [
@@ -19,10 +20,9 @@ class DetailsScreen extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white,),
           onPressed: () {
-            print('Volver');
+            Navigator.pop(context);
           },
         ),
-        
       ),
      
       body: Stack(
