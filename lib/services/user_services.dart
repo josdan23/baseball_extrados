@@ -13,6 +13,7 @@ class UserServices {
   static Future<List<User>> getAllUsers() async {
 
     final url = Uri.https( USER_URL, 'users.json');
+
     final resp = await http.get( url );
 
     final Map<String, dynamic> usersMap = json.decode( resp.body );
@@ -30,5 +31,16 @@ class UserServices {
 
     return usersList;
   }
+
+  static Future<User> getUserById( String idUser) async {
+    //TODO: Implementar getUserById(String id)
+    return User(mail: '', password: '', username: '');
+  }
+
+  static Future<User> udpateUserById( String idUser) async {
+    //TODO: implementar updateUserById()
+    return User(mail: '', password: '', username: '');
+  } 
+
 
 }

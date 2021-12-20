@@ -7,18 +7,21 @@ import 'package:baseball_cards/models/user.dart';
 
 class LoginFormProvider extends ChangeNotifier {
 
-  GlobalKey<FormState> formKey = new GlobalKey<FormState>();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   String mailForm = '';
   String passwordForm = '';
 
   bool _isLoading = false;
+
   bool get isLoading => _isLoading;
 
   set isLoading( bool value ) {
     _isLoading = value;
     notifyListeners();
   }
+
+
 
   bool isValidForm() {
 
@@ -27,6 +30,8 @@ class LoginFormProvider extends ChangeNotifier {
     return formKey.currentState?.validate() ?? false;
 
   }
+
+
 
   Future<bool> authenticate() async {
 
