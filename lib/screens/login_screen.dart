@@ -53,7 +53,7 @@ class _LoginForm extends StatelessWidget {
               prefix: Icon(Icons.mail), 
               hintText: 'Ingrese su mail'),
 
-            onChanged: ( value ) => loginFormProvider.mail = value,
+            onChanged: ( value ) => loginFormProvider.mailForm = value,
             
             validator:(value) {
               
@@ -76,7 +76,7 @@ class _LoginForm extends StatelessWidget {
               prefix: Icon(Icons.lock)
             ),
 
-            onChanged: ( value ) => loginFormProvider.password = value,
+            onChanged: ( value ) => loginFormProvider.passwordForm = value,
             
             validator: (value) {
         
@@ -111,14 +111,15 @@ class _LoginForm extends StatelessWidget {
               FocusScope.of(context).unfocus();
         
               if (!loginFormProvider.isValidForm()) return;
+              if( !loginFormProvider.authenticate() ) return;
 
               loginFormProvider.isLoading = true;
 
-              await Future.delayed(Duration(seconds: 2));
+              // await Future.delayed(Duration(seconds: 2));
 
               loginFormProvider.isLoading = false;
         
-              // Navigator.pushReplacementNamed(context, 'home');
+              Navigator.pushReplacementNamed(context, 'home');
         
             }, 
           )
