@@ -1,11 +1,8 @@
 
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-
+import 'package:baseball_cards/services/user_services.dart';
 import 'package:baseball_cards/models/user.dart';
 
 class LoginFormProvider extends ChangeNotifier {
@@ -23,15 +20,6 @@ class LoginFormProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
-  final String _urlBase = 'flutter-cartas-default-rtdb.firebaseio.com';
-  final List<User> users = [];
-
-  LoginFormProvider() {
-    this._loadUsers();
-  }
-
-
   bool isValidForm() {
 
     print('$mailForm - $passwordForm');
@@ -40,35 +28,18 @@ class LoginFormProvider extends ChangeNotifier {
 
   }
 
+  Future<bool> authenticate() async {
 
-  Future _loadUsers() async {
-
-    final url = Uri.https( _urlBase, 'users.json');
-    final resp = await http.get( url );
-
-    final Map<String, dynamic> usersMap = json.decode( resp.body );
-
-    usersMap.forEach((key, value) {
-      final userTemp = User.fromMap(value);
-      userTemp.id = key;
-
-      this.users.add(userTemp);
-    });
-
-    log('Se cargaron los usuarios desde el backend');
-  }
-
-
-  bool authenticate() {
     bool userValid = false;
 
-    this.users.forEach((element) {
+    List<User> users = await UserServices.getAllUsers();
+
+    users.forEach((element) {
       
       print(element);
       if ( element.mail == this.mailForm ) 
         if (element.password == this.passwordForm ) 
           userValid = true;
-
     });
 
     if (userValid)

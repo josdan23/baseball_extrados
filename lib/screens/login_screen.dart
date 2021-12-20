@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import 'package:baseball_cards/provider/login_form_provider.dart';
@@ -111,7 +112,10 @@ class _LoginForm extends StatelessWidget {
               FocusScope.of(context).unfocus();
         
               if (!loginFormProvider.isValidForm()) return;
-              if( !loginFormProvider.authenticate() ) return;
+              if( ! await loginFormProvider.authenticate() ) {
+                _notifyUserNoAuthenticate(context);
+                return;
+              }
 
               loginFormProvider.isLoading = true;
 
@@ -139,5 +143,15 @@ class _LoginForm extends StatelessWidget {
             hintText: hintText,
             prefixIcon: prefix, 
           );
+  }
+
+  void _notifyUserNoAuthenticate(BuildContext context) {
+    // Fluttertoast.showToast(
+    //     msg: "Usuario no autenticado",
+    // );
+
+    Scaffold.of(context).showSnackBar(SnackBar(
+      content: Text("Usuario no autenticado"),
+    ));
   }
 }
