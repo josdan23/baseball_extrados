@@ -2,11 +2,11 @@
 
 class Team {
 
-  final int idTeam;
+  final int? idTeam;
   final String teamName;
 
   Team({
-    required this.idTeam, 
+    this.idTeam, 
     required this.teamName
   });
 

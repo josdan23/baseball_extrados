@@ -16,6 +16,7 @@ class Card {
   final Team team;
   final RolePlayer rolPlayer;
   final List<CollectionCard> collection;
+  final String? image;
 
   Card({
     required this.idCard, 
@@ -24,7 +25,8 @@ class Card {
     required this.rarities, 
     required this.team, 
     required this.rolPlayer, 
-    required this.collection
+    required this.collection,
+    this.image
   });
 
 }

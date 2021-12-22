@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
-import 'package:baseball_cards/provider/login_form_provider.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
+
+// import 'package:baseball_cards/provider/login_form_provider.dart';
+import 'package:baseball_cards/services/firebase/user_firebase_service.dart';
+import 'package:baseball_cards/controllers/login_controller.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({ Key? key }) : super(key: key);
@@ -15,7 +18,7 @@ class LoginScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         
         child: ChangeNotifierProvider(
-          create: ( _ ) => LoginFormProvider(),
+          create: ( _ ) => LoginController( UserFirebaseService() ),
           child: _LoginForm(),
         ),
       )
@@ -28,7 +31,7 @@ class _LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final loginFormProvider = Provider.of<LoginFormProvider>(context);
+    final loginFormProvider = Provider.of<LoginController>(context);
 
     return Form(
       key: loginFormProvider.formKey,
@@ -108,20 +111,18 @@ class _LoginForm extends StatelessWidget {
             ),
             
             onPressed: () async {
+
+              loginFormProvider.isLoading = true;
         
               FocusScope.of(context).unfocus();
-        
+
               if (!loginFormProvider.isValidForm()) return;
-              if( ! await loginFormProvider.authenticate() ) {
+              if( !(await loginFormProvider.authenticate())) {
+                loginFormProvider.isLoading = false;
                 _notifyUserNoAuthenticate(context);
                 return;
               }
 
-              loginFormProvider.isLoading = true;
-
-              // await Future.delayed(Duration(seconds: 2));
-
-              loginFormProvider.isLoading = false;
         
               Navigator.pushReplacementNamed(context, 'home');
         
@@ -146,12 +147,10 @@ class _LoginForm extends StatelessWidget {
   }
 
   void _notifyUserNoAuthenticate(BuildContext context) {
-    // Fluttertoast.showToast(
-    //     msg: "Usuario no autenticado",
-    // );
-
+   
     Scaffold.of(context).showSnackBar(SnackBar(
       content: Text("Usuario no autenticado"),
     ));
+
   }
 }

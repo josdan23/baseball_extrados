@@ -1,10 +1,10 @@
 
 class RolePlayer {
-  final int idRolePlayer;
+  final int? idRolePlayer;
   final String nameRole;
 
   RolePlayer({
-    required this.idRolePlayer, 
+    this.idRolePlayer, 
     required this.nameRole
   });
 

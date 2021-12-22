@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         
         'login'     : ( _ ) => LoginScreen(),
         'home'      : ( BuildContext context ) => HomeScreen(),
-        'details'   : (BuildContext context ) => DetailsScreen(),
+        'details'   : ( BuildContext context ) => DetailsScreen(),
       },
 
 

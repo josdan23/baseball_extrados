@@ -1,13 +1,12 @@
 
-
 class Player {
 
-  final int idPlayer;
+  final int? idPlayer;
   final String firstName;
   final String lastName;
 
   Player({
-    required this.idPlayer, 
+    this.idPlayer, 
     required this.firstName, 
     required this.lastName
   });

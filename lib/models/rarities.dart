@@ -1,10 +1,10 @@
 
 class Rarities {
-  final int idRarities;
+  final int? idRarities;
   final String description;
 
   Rarities({
-    required this.idRarities, 
+    this.idRarities, 
     required this.description
   });
 
