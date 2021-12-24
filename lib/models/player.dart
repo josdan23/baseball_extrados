@@ -1,7 +1,7 @@
 
 class Player {
 
-  final int? idPlayer;
+  final String? idPlayer;
   final String firstName;
   final String lastName;
 
@@ -11,6 +11,9 @@ class Player {
     required this.lastName
   });
 
-
+  @override
+  String toString() {
+    return 'id: ${ this.idPlayer } - firstName: ${this.firstName} - lastName: ${this.lastName}';
+  }
 
 }
