@@ -1,6 +1,6 @@
 
 class Rarities {
-  final int? idRarities;
+  final String? idRarities;
   final String description;
 
   Rarities({
@@ -8,5 +8,8 @@ class Rarities {
     required this.description
   });
 
-
+  @override
+  String toString() {
+    return 'Rarities{ id: ${this.idRarities} - description: ${this.description} }';
+  }
 }

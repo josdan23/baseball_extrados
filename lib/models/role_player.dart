@@ -1,6 +1,6 @@
 
 class RolePlayer {
-  final int? idRolePlayer;
+  final String? idRolePlayer;
   final String nameRole;
 
   RolePlayer({
@@ -8,6 +8,11 @@ class RolePlayer {
     required this.nameRole
   });
 
+  @override
+  String toString() {
+
+    return 'RolePlayer { id: ${this.idRolePlayer} - nameRole: ${this.nameRole} }';
+  }
 
 
 }

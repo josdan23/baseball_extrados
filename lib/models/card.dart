@@ -9,7 +9,7 @@ import 'package:baseball_cards/models/team.dart';
 
 class Card {
 
-  final int idCard;
+  final String? idCard;
   final Serie serie;
   final Player player;
   final Rarities rarities;
@@ -19,7 +19,7 @@ class Card {
   final String? image;
 
   Card({
-    required this.idCard, 
+    this.idCard, 
     required this.serie, 
     required this.player, 
     required this.rarities, 
@@ -28,5 +28,21 @@ class Card {
     required this.collection,
     this.image
   });
+
+  @override
+  String toString() {
+    final sb = StringBuffer();
+    sb
+      ..write('Card { idCard: ${this.idCard}\n')
+      ..write('\t ${this.serie.toString()}\n')
+      ..write('\t${this.player.toString()}\n')
+      ..write('\t${this.rarities.toString()}\n')
+      ..write('\t${this.team.toString()}\n')
+      ..write('\t${this.rolPlayer.toString()}\n')
+      ..write('\t${this.collection.toString()}\n')
+      ..write('}');
+
+    return sb.toString();
+  }
 
 }

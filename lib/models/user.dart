@@ -35,4 +35,18 @@ class User {
         "role": role,
         "username": username,
     };
+
+    @override
+  String toString() {
+    final sb = StringBuffer();
+    sb
+      ..write('User { id: ${this.id} - ')
+      ..write('isActive: ${this.isActive} - ')
+      ..write('mail: ${this.mail} - ')
+      ..write('password: ${this.password} - ')
+      ..write('role: ${this.role} - ')
+      ..write('username: ${this.username} }');
+  
+    return sb.toString();
+  }
 }

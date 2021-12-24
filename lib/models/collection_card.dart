@@ -2,15 +2,20 @@ import 'package:baseball_cards/models/serie.dart';
 
 class CollectionCard {
 
-  final int idCollection;
+  final String? idCollection;
   final String description;
-  final Serie serie;
+  // final Serie serie;
 
   CollectionCard({
-    required this.idCollection, 
+    this.idCollection, 
     required this.description, 
-    required this.serie
+    // required this.serie
   });
+
+  @override
+  String toString() {
+    return 'CollectionCard{ id: ${this.idCollection} - description: ${this.description} }';
+  }
 
 
 }

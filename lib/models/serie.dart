@@ -1,5 +1,5 @@
 class Serie {
-  final int? idSerie;
+  final String? idSerie;
   final String description;
   final DateTime publicationDate;
 
@@ -9,5 +9,8 @@ class Serie {
     required this.publicationDate
   });
 
-
+  @override
+  String toString() {
+    return 'Serie{ id: ${this.idSerie} - description: ${this.description} - publicationDate: ${this.publicationDate.toString()}}';
+  }
 }
