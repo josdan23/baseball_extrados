@@ -8,11 +8,21 @@ class CollectionCardMapper implements BaseMapper<CollectionCard> {
   @override
   CollectionCard fromMap(Map<String, dynamic> json) {
 
-    return CollectionCard(
-      description: json['description']
-    );
+    final CollectionCard collectionCard;
 
+    try {
+      collectionCard = CollectionCard(
+        idCollection  : json['id'],
+        description   : json['description'] ?? (throw Exception('La key: "description" no se encuetra en el json'))
+      );
 
+    } catch (e) {
+      print(e);
+      throw Exception('Error al parsear JSON a objeto CollectionCard');
+
+    }
+
+    return collectionCard;
   }
 
 }

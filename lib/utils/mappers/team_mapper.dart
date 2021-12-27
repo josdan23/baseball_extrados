@@ -7,9 +7,20 @@ class TeamMapper extends BaseMapper<Team> {
   
   @override
   Team fromMap(Map<String, dynamic> json) {
-    return Team(
-      teamName: json['name'] 
-    );
+
+    final Team team;
+
+    try {
+      team = Team(
+        idTeam: json['id'],
+        teamName: json['teamName'] ?? (throw Exception('La key: "teamName" no se encuetra en el json'))
+      );
+    } catch (e) {
+      print(e);
+      throw Exception('Error al parsear JSON a objeto TEAM');
+    }
+
+    return team;
   }
 
 
