@@ -2,7 +2,7 @@
 import 'package:baseball_cards/models/role_player.dart';
 import 'package:baseball_cards/utils/mappers/base_mapper.dart';
 
-class RolePlayerMapper implements BaseMapper<RolePlayer>{
+class RolePlayerMapper extends BaseMapper<RolePlayer>{
   
   @override
   RolePlayer fromMap(Map<String, dynamic> json) {
@@ -22,5 +22,19 @@ class RolePlayerMapper implements BaseMapper<RolePlayer>{
 
     return role;
   }
+
+  @override
+  Map<String, dynamic> toMap(RolePlayer rolePlayer) {
+    
+    return {
+        "idRole": rolePlayer.idRolePlayer,
+        "name": rolePlayer.nameRole,
+    };
+
+  }
+
+  
+
+
   
 }

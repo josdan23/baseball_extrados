@@ -2,7 +2,7 @@
 import 'package:baseball_cards/models/serie.dart';
 import 'package:baseball_cards/utils/mappers/base_mapper.dart';
 
-class SerieMapper implements BaseMapper<Serie> {
+class SerieMapper extends BaseMapper<Serie> {
   
   @override
   Serie fromMap(Map<String, dynamic> json) {
@@ -21,6 +21,20 @@ class SerieMapper implements BaseMapper<Serie> {
     }
 
     return serie;
+  }
+
+
+  @override
+  Map<String, dynamic> toMap(Serie serie) {
+    
+    return {
+        "description": serie.description,
+        "idSerie": serie.idSerie,
+        "publicationDate": serie.publicationDate.toString(),
+    };
+
 
   }
+
+  
 }

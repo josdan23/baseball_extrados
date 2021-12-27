@@ -24,4 +24,14 @@ class TeamMapper extends BaseMapper<Team> {
   }
 
 
+  @override
+  Map<String, dynamic> toMap(Team team) {
+
+    return {
+        "idTeam": team.idTeam,
+        "name": team.teamName,
+    };
+  }
+
+
 }

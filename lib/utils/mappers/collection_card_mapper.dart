@@ -2,7 +2,7 @@
 import 'package:baseball_cards/models/collection_card.dart';
 import 'package:baseball_cards/utils/mappers/base_mapper.dart';
 
-class CollectionCardMapper implements BaseMapper<CollectionCard> {
+class CollectionCardMapper extends BaseMapper<CollectionCard> {
   
   
   @override
@@ -23,6 +23,16 @@ class CollectionCardMapper implements BaseMapper<CollectionCard> {
     }
 
     return collectionCard;
+  }
+
+  @override
+  Map<String, dynamic> toMap(CollectionCard collectionCard) {
+
+    return {
+        "description": collectionCard.description,
+        "idCollection": collectionCard.idCollection,
+    };
+
   }
 
 }

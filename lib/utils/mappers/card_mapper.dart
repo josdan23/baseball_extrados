@@ -14,7 +14,7 @@ import 'package:baseball_cards/utils/mappers/role_player_mapper.dart';
 import 'package:baseball_cards/utils/mappers/serie_mapper.dart';
 import 'package:baseball_cards/utils/mappers/team_mapper.dart';
 
-class CardMapper implements BaseMapper<Card> {
+class CardMapper extends BaseMapper<Card> {
 
 
   @override
@@ -101,6 +101,22 @@ class CardMapper implements BaseMapper<Card> {
     });
 
     return cards;
+
+  }
+
+  @override
+  Map<String, dynamic> toMap(Card card) {
+
+
+    return {
+        "collection": List.from( card.collection.map((e) => CollectionCardMapper().toMap(e)) ),
+        "imagen": card.image,
+        "player": PlayerMapper().toMap(card.player),
+        "raritie": RaritiesMapper().toMap(card.rarities),
+        "role": RolePlayerMapper().toMap(card.rolPlayer),
+        "serie": SerieMapper().toMap(card.serie),
+        "team": TeamMapper().toMap(card.team),
+    };
 
   }
   

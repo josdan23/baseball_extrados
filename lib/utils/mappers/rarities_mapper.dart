@@ -2,7 +2,7 @@
 import 'package:baseball_cards/models/rarities.dart';
 import 'package:baseball_cards/utils/mappers/base_mapper.dart';
 
-class RaritiesMapper implements BaseMapper<Rarities> {
+class RaritiesMapper extends BaseMapper<Rarities> {
 
 
   @override
@@ -24,5 +24,17 @@ class RaritiesMapper implements BaseMapper<Rarities> {
     return raritie;
 
   }
+
+
+  @override
+  Map<String, dynamic> toMap(Rarities rarities) {
+    
+    return {
+        "description": rarities.description,
+        "idRariritie": rarities.idRarities,
+    };
+
+  }
+
 
 }
