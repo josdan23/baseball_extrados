@@ -7,4 +7,10 @@ abstract class UserApi {
 
   Future<User> getUserById( String userId);
 
+  Future<User> save( User user );
+
+  Future<void> delete( String userId );
+
+  Future<User> udpate( String userId, User user);
+
 }
