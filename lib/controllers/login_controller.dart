@@ -1,12 +1,12 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 
 import 'package:baseball_cards/models/user.dart';
-import 'package:baseball_cards/services/firebase/user_firebase_service.dart';
-import 'package:baseball_cards/services/user_api.dart';
-
+import 'package:baseball_cards/services/users_api.dart';
 
 class LoginController extends ChangeNotifier {
+
+  final Logger logger = Logger();
 
   final UserApi userService;
 
@@ -44,13 +44,13 @@ class LoginController extends ChangeNotifier {
       
       print(element.toString());
       if ( element.mail == this.mailForm ) 
-        if (element.password == this.passwordForm )
+        if (element.password == this.passwordForm ) 
           userValid = true;
-      
+          
     });
 
     if (userValid)
-      log('user autenticado');
+      logger.i('USER_AUTHENTICATED'); 
   
     return userValid;
   }
