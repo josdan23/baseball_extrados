@@ -2,6 +2,7 @@ import 'dart:convert';
 
 class User {
     User({
+        id,
         this.isActive = true,
         required this.mail,
         required this.password,
