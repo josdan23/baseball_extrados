@@ -100,7 +100,7 @@ class UserFirebaseService extends UserApi {
 
     logger.d('RESPONSE_API_UPDATE_USER: ${response.body}');
 
-    final userUpdated = User.fromJson( response.body );
+    final userUpdated = UserMapper().fromMap( json.decode(response.body ));
 
     logger.i( 'REQUIRE_UPDATE_USER_OK: $userUpdated');
 
