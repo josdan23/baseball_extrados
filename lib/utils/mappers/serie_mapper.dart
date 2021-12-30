@@ -11,7 +11,7 @@ class SerieMapper extends BaseMapper<Serie> {
 
     try {
       serie = Serie(
-        idSerie: json['id'],
+        idSerie: json['idSerie'],
         description: json["description"] ?? (throw Exception(throw Exception('La key: "description" no se encuetra en el json'))),
         publicationDate: DateTime.parse( json["publicationDate"] ?? (throw Exception('La key: "publicationDate" no se encuetra en el json')))
       );

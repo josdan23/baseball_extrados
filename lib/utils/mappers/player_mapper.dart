@@ -11,7 +11,7 @@ class PlayerMapper extends BaseMapper<Player> {
     
     try {
       player = Player(
-        idPlayer: json['id'],
+        idPlayer: json['idPlayer'],
         firstName: json['firstName'] ?? (throw Exception('La key: "firstName" no se encuetra en el json ')), 
         lastName: json['lastName'] ?? (throw Exception('La key: "lastName" no se encuetra en el json')),
       );

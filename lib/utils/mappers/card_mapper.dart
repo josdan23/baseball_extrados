@@ -21,6 +21,7 @@ class CardMapper extends BaseMapper<Card> {
       final list = (json['collection'] as List).map((e) => CollectionCardMapper().fromMap(e)).toList();
       
       final Card card = Card(
+        idCard: json['idCard'],
         collection: list,
         image: json["imagen"],
         player: PlayerMapper().fromMap(json["player"]),

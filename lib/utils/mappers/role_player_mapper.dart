@@ -11,7 +11,7 @@ class RolePlayerMapper extends BaseMapper<RolePlayer>{
 
     try {
       role = RolePlayer(
-        idRolePlayer: json['id']  ,
+        idRolePlayer: json['idRolePlayer']  ,
         nameRole: json['name'] ?? (throw Exception('Key "name" no existe en el json'))
       );
 
@@ -27,7 +27,7 @@ class RolePlayerMapper extends BaseMapper<RolePlayer>{
   Map<String, dynamic> toMap(RolePlayer rolePlayer) {
     
     return {
-        "idRole": rolePlayer.idRolePlayer,
+        "idRolePlayer": rolePlayer.idRolePlayer,
         "name": rolePlayer.nameRole,
     };
 

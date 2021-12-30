@@ -12,7 +12,7 @@ class CollectionCardMapper extends BaseMapper<CollectionCard> {
 
     try {
       collectionCard = CollectionCard(
-        idCollection  : json['id'],
+        idCollection  : json['idCollection'],
         description   : json['description'] ?? (throw Exception('La key: "description" no se encuetra en el json'))
       );
 

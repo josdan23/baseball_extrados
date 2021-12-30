@@ -12,8 +12,8 @@ class TeamMapper extends BaseMapper<Team> {
 
     try {
       team = Team(
-        idTeam: json['id'],
-        teamName: json['teamName'] ?? (throw Exception('La key: "teamName" no se encuetra en el json'))
+        idTeam: json['idTeam'],
+        teamName: json['name'] ?? (throw Exception('La key: "teamName" no se encuetra en el json'))
       );
     } catch (e) {
       print(e);
