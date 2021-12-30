@@ -26,7 +26,7 @@ class Card {
     required this.team, 
     required this.rolPlayer, 
     required this.collection,
-    this.image
+    this.image = ''
   });
 
   @override
