@@ -9,7 +9,7 @@ import 'package:baseball_cards/models/team.dart';
 
 class Card {
 
-  final String? idCard;
+  String? idCard;
   final Serie serie;
   final Player player;
   final Rarities rarities;
