@@ -1,13 +1,15 @@
 import 'package:logger/logger.dart';
 
 import 'package:baseball_cards/models/card.dart';
-import 'package:baseball_cards/utils/mappers/base_mapper.dart';
-import 'package:baseball_cards/utils/mappers/collection_card_mapper.dart';
-import 'package:baseball_cards/utils/mappers/player_mapper.dart';
-import 'package:baseball_cards/utils/mappers/rarities_mapper.dart';
-import 'package:baseball_cards/utils/mappers/role_player_mapper.dart';
-import 'package:baseball_cards/utils/mappers/serie_mapper.dart';
-import 'package:baseball_cards/utils/mappers/team_mapper.dart';
+import 'package:baseball_cards/services/mappers/base_mapper.dart';
+import 'package:baseball_cards/services/mappers/collection_card_mapper.dart';
+import 'package:baseball_cards/services/mappers/player_mapper.dart';
+import 'package:baseball_cards/services/mappers/rarities_mapper.dart';
+import 'package:baseball_cards/services/mappers/role_player_mapper.dart';
+import 'package:baseball_cards/services/mappers/serie_mapper.dart';
+import 'package:baseball_cards/services/mappers/team_mapper.dart';
+
+
 
 class CardMapper extends BaseMapper<Card> {
 

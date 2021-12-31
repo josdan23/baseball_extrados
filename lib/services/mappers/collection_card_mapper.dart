@@ -1,6 +1,6 @@
 
 import 'package:baseball_cards/models/collection_card.dart';
-import 'package:baseball_cards/utils/mappers/base_mapper.dart';
+import 'package:baseball_cards/services/mappers/base_mapper.dart';
 
 class CollectionCardMapper extends BaseMapper<CollectionCard> {
   

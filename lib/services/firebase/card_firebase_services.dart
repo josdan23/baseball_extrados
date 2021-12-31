@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 
-import 'package:baseball_cards/config/url.dart';
-import 'package:baseball_cards/utils/mappers/card_mapper.dart';
+
+
+import 'package:baseball_cards/services/mappers/card_mapper.dart';
+import 'package:baseball_cards/services/config/server.dart';
 import 'package:baseball_cards/models/card.dart' ;
 import 'package:baseball_cards/services/cards_api.dart';
 

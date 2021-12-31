@@ -1,8 +1,8 @@
-import 'package:baseball_cards/screens/login_screen.dart';
+import 'package:baseball_cards/views/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
-import 'package:baseball_cards/screens/home_screen.dart';
-import 'package:baseball_cards/screens/details_screen.dart';
+import 'package:baseball_cards/views/screens/home_screen.dart';
+import 'package:baseball_cards/views/screens/details_screen.dart';
 
 
 

@@ -1,6 +1,6 @@
 
 import 'package:baseball_cards/models/role_player.dart';
-import 'package:baseball_cards/utils/mappers/base_mapper.dart';
+import 'package:baseball_cards/services/mappers/base_mapper.dart';
 
 class RolePlayerMapper extends BaseMapper<RolePlayer>{
   
