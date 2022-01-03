@@ -10,7 +10,7 @@ import 'package:baseball_cards/services/config/server.dart';
 import 'package:baseball_cards/models/card.dart' ;
 import 'package:baseball_cards/services/cards_api.dart';
 
-
+//TODO: MANEJAR LOS CODIGOS DE RESPONSE
 class CardFirebaseServices extends CardsApi {
 
   final Logger logger = Logger();

@@ -11,6 +11,8 @@ import 'package:baseball_cards/services/users_api.dart';
 import 'package:baseball_cards/models/user.dart';
 
 
+//TODO: MANEJAR LOS CODIGOS DE LA REQUEST.
+
 class UserFirebaseService extends UserApi {
 
   final Logger logger = Logger();
@@ -38,9 +40,9 @@ class UserFirebaseService extends UserApi {
   }
 
   @override
-  Future<User> getUserById( String idUser) async {
+  Future<User> getUserById( String userId) async {
   
-    final url = Uri.https( URL_SERVER, 'users/$idUser.json');
+    final url = Uri.https( URL_SERVER, 'users/$userId.json');
     final response = await http.get( url );
 
     logger.d( 'RESPONSE_API_GET_USER_BY_ID: ${response.body}' );
@@ -50,7 +52,7 @@ class UserFirebaseService extends UserApi {
     try{
 
       user = UserMapper().fromMap( json.decode(response.body));
-      user.id = idUser;
+      user.id = userId;
 
       logger.i('REQUIRE_USER_BY_ID_OK: ${user.toString()}' );
       return user;
