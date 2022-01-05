@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:baseball_cards/views/widgets/item_card_swiper.dart';
+import 'package:baseball_cards/presentation/widgets/item_card_swiper.dart';
 import 'package:card_swiper/card_swiper.dart';
 
 
