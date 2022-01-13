@@ -8,44 +8,25 @@ class LoginController extends ChangeNotifier {
 
   final Logger logger = Logger();
 
-  final UserApi userService;
+  final UserApi _userService;
 
-  LoginController(this.userService);
+  LoginController(UserApi userService) : _userService = userService;
   
 
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-  String mailForm = '';
-  String passwordForm = '';
-
-  bool _isLoading = false;
-
-  bool get isLoading => _isLoading;
-
-  set isLoading( bool value ) {
-    _isLoading = value;
-    notifyListeners();
-  }
-
-
-  bool isValidForm() {
-    print('$mailForm - $passwordForm');
-    return formKey.currentState?.validate() ?? false;
-  }
-
-
-  Future<bool> authenticate( ) async {
+  Future<bool> authenticate( String email, String password ) async {
 
     bool userValid = false;
 
-    List<User> users = await userService.getAll();
+    List<User> users = await _userService.getAll();
 
     users.forEach((element) {
       
-      print(element.toString());
-      if ( element.mail == this.mailForm ) 
-        if (element.password == this.passwordForm ) 
+      // print(element.toString());
+
+      if ( element.mail == email ) {
+        if (element.password == password ) 
           userValid = true;
+      }
           
     });
 
