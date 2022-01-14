@@ -11,7 +11,7 @@ class RolePlayerMapper extends BaseMapper<RolePlayer>{
 
     try {
       role = RolePlayer(
-        idRolePlayer: json['idRolePlayer']  ,
+        idRolePlayer: json['idRole']  ,
         nameRole: json['name'] ?? (throw Exception('Key "name" no existe en el json'))
       );
 

@@ -1,21 +1,20 @@
 
 import 'package:flutter/material.dart';
 
+import 'package:baseball_cards/models/card.dart' as bscard;
+
 
 class CardItem extends StatelessWidget {
 
-  final String firstName;
-  final String lastName;
+  final bscard.Card card;
 
   const CardItem({
     Key? key, 
-    required this.firstName, 
-    required this.lastName,
+    required this.card
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
 
     return Container(
       // color: Colors.red,    
@@ -40,10 +39,10 @@ class CardItem extends StatelessWidget {
                   child: Stack(
                     children:  [
                       
-                      _ImageCard(),
-              
-                      //TODO: cambiar el color del filtro según la rareza
-                      _FilterCard(),
+                      _ImageCard( url: card.image ),
+
+
+                      _FilterCard( raritie: card.rarities.description, ),
               
                       Container(
                         // color: Colors.red,
@@ -62,9 +61,9 @@ class CardItem extends StatelessWidget {
               
                             SizedBox(height: 20,),
               
-                            Text( this.firstName, style: TextStyle(fontSize: 16, color: Colors.white)),
+                            Text( card.player.firstName, style: TextStyle(fontSize: 16, color: Colors.white)),
                             
-                            Text( this.lastName, style: TextStyle(fontSize: 36, color: Colors.white)),
+                            Text( card.player.lastName, style: TextStyle(fontSize: 36, color: Colors.white)),
               
                             SizedBox(height: 30,)
                           ]
@@ -82,7 +81,7 @@ class CardItem extends StatelessWidget {
           SizedBox(height: 20,),
           
           Text('SERIE'),
-          Text('3902300330', style: TextStyle(fontSize: 18)),
+          Text(card.serie.description, style: TextStyle(fontSize: 18)),
         ],
       ),
     );
@@ -91,11 +90,11 @@ class CardItem extends StatelessWidget {
 
 class _FilterCard extends StatelessWidget {
   
-  final Color? colorFilter;
+  final String raritie;
 
   const _FilterCard({
     Key? key, 
-    this.colorFilter
+    required this.raritie
   }) : super(key: key);
 
   @override
@@ -108,16 +107,41 @@ class _FilterCard extends StatelessWidget {
           radius: 0.9,
           colors: [
             Color.fromRGBO(33, 29, 28, 0.1),
-            this.colorFilter ?? Color.fromRGBO(223, 205, 49 , 0.8), 
+            colorRaritie( raritie ),
           ],
           stops: <double>[0.4, 1.0],
         ),
       )
     );
   }
+
+  //FIXME: cambiar el color
+  Color colorRaritie( String raritie) {
+
+    switch (raritie) {
+      case 'gold':
+        return const Color.fromRGBO(223, 205, 49 , 0.8);
+      case 'silver':
+        return const Color.fromRGBO(2, 2, 2, 0.8); 
+      case 'bronze':
+        return const Color.fromRGBO(2, 2, 2, 0.8);
+      
+      default:
+        return const Color.fromRGBO(223, 205, 49 , 0.8);
+
+    }
+  }
 }
 
 class _ImageCard extends StatelessWidget {
+
+  final String? url;
+
+  const _ImageCard({
+    required this.url
+  });
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -127,9 +151,10 @@ class _ImageCard extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: size.height * 0.55,
-      child: Image(
-        image: AssetImage('assets/riquelme.jpeg'),
-        fit: BoxFit.fitHeight,
+      child: FadeInImage(
+        placeholder: AssetImage('assets/placeholder.png'),
+        image: NetworkImage( this.url ?? 'https://via.placeholder.com/200x350' ),
+        fit: BoxFit.cover,
       ),
     );
   }

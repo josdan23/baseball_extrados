@@ -12,7 +12,7 @@ class RaritiesMapper extends BaseMapper<Rarities> {
 
     try {
       raritie = Rarities(
-        idRarities: json['idRarities'],
+        idRarities: json['idRaritie'],
         description: json['description'] ?? (throw Exception('La key: "lastName" no se encuetra en el json'))
       );
     } catch (e) {

@@ -1,8 +1,14 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:card_swiper/card_swiper.dart';
+
+import 'package:baseball_cards/controllers/cards_controller.dart';
+import 'package:baseball_cards/models/card.dart' as bscard;
+import 'package:baseball_cards/presentation/blocs/home_bloc/home_bloc.dart';
+import 'package:baseball_cards/services/cards_api.dart';
+import 'package:baseball_cards/services/firebase/card_firebase_services.dart';
 
 import 'package:baseball_cards/presentation/widgets/item_card_swiper.dart';
-import 'package:card_swiper/card_swiper.dart';
 
 
 class HomeScreen extends StatelessWidget {
@@ -10,58 +16,70 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final CardsApi cardDataProvider = CardFirebaseServices();
+    final CardController controller = CardController(cardDataProvider);
+  
+
+    return BlocProvider(
+      create: (context) {
+        final bloc = HomeBloc(controller);
+        bloc.add(RequestCards());
+
+        return bloc;
+      },
+      child: Scaffold(
+          //APPBAR  
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            centerTitle: false,
+            elevation: 0,
+            title: Text(
+              'Mis cartas', 
+              style: TextStyle(
+                color: Colors.black, 
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+              )
+            ),
+            actions: [
     
-    return Scaffold(
-      //APPBAR
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        centerTitle: false,
-        elevation: 0,
-        title: Text(
-          'Mis cartas', 
-          style: TextStyle(
-            color: Colors.black, 
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
+              //BUSCAR
+              _SearchButton(),
+    
+              SizedBox(width: 4,),
+              // PERFIL DE USUARIO
+              _ProfileButton(),
+    
+              SizedBox(width: 16,),
+            ],
+          ),
+    
+          // BODY
+          //backgroundColor: Colors.amber,
+          body: Column(
+            children: [
+      
+              SizedBox(height: 20,),
+      
+              _CollectionsFilters(),
+      
+              SizedBox(height: 20,),
+          
+              _CardSwipper(),
+      
+            ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add),
+            // backgroundColor: Colors.red,
+            onPressed: () {
+    
+              //TODO: implementar creación de nueva carta
+            
+            },
           )
         ),
-        actions: [
-
-          //BUSCAR
-          _SearchButton(),
-
-          SizedBox(width: 4,),
-          // PERFIL DE USUARIO
-          _ProfileButton(),
-
-          SizedBox(width: 16,),
-        ],
-      ),
-
-      // BODY
-      //backgroundColor: Colors.amber,
-      body: Column(
-        children: [
-
-          SizedBox(height: 20,),
-
-          _CollectionsFilters(),
-  
-          SizedBox(height: 20,),
-      
-          _CardSwipper(),
-
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        // backgroundColor: Colors.red,
-        onPressed: () {
-
-          //TODO: implementar creación de nueva carta
-        
-        },
-      )
     );
   }
 }
@@ -143,23 +161,39 @@ class _CardSwipper extends StatelessWidget {
 
     final size = MediaQuery.of(context).size;
 
-    return Container(
+    return BlocBuilder<HomeBloc, HomeState>(
+      builder: (context, state) {
+
+          if (state is LoadingCards){
+            return Center(child: CircularProgressIndicator());
+          }
+          
+
+
+         List<bscard.Card> listCards = [];
+          if (state is HomeInitial)
+            listCards = state.cards;
+
+          print('CARTAS MOSTRADAS EN EL BLOC: ${listCards.length}');
+
+        return Container(
+          height: size.height * 0.7,
+          child: Swiper(
+            itemCount: listCards.length,
+            viewportFraction: 0.8,
+            scale: 0.9,
+            loop: false,
+            itemBuilder: (BuildContext context,int index){
+              
+            
+              return CardItem(
+                card: listCards[index],
+              );
     
-      height: size.height * 0.7,
-
-      child: Swiper(
-        itemCount: 10,
-        viewportFraction: 0.8,
-        scale: 0.9,
-        itemBuilder: (BuildContext context,int index){
-
-          return CardItem(
-            firstName: 'Juan Roman',
-            lastName: 'Riquelme',
-          );
-
-        },
-      ),
+            },
+          ),
+        );
+      },
     );
   }
 }
