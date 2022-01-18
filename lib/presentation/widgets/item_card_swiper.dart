@@ -28,7 +28,7 @@ class CardItem extends StatelessWidget {
                 onTap: () {
 
                   //TODO: mandar info del jugador para ver los detalles
-                  Navigator.pushNamed(context, 'details');
+                  Navigator.pushNamed(context, 'details', arguments: {'idCard': card.idCard});
                 
                 },
 
@@ -122,12 +122,12 @@ class _FilterCard extends StatelessWidget {
       case 'gold':
         return const Color.fromRGBO(223, 205, 49 , 0.8);
       case 'silver':
-        return const Color.fromRGBO(2, 2, 2, 0.8); 
+        return const Color.fromRGBO(174, 172, 172 , 0.8); 
       case 'bronze':
-        return const Color.fromRGBO(2, 2, 2, 0.8);
+        return const Color.fromRGBO(199, 116, 66 , 0.8);
       
       default:
-        return const Color.fromRGBO(223, 205, 49 , 0.8);
+        return const Color.fromRGBO(174, 172, 172 , 0.8); 
 
     }
   }
