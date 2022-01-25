@@ -1,3 +1,4 @@
+import 'package:baseball_cards/presentation/screens/create_card_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:baseball_cards/presentation/screens/login_screen.dart';
@@ -18,12 +19,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: 'login',
+      initialRoute: 'create',
       routes: {
         
         'login'     : ( _ ) => LoginScreen(),
-        'home'      : ( BuildContext context ) => HomeScreen(),
-        'details'   : ( BuildContext context ) => DetailsScreen(),
+        'home'      : ( _ ) => HomeScreen(),
+        'details'   : ( _ ) => DetailsScreen(),
+        'create'    : ( _ ) => CreateCardScreen()
       },
 
 
