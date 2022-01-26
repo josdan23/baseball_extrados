@@ -1,7 +1,7 @@
 
 class Rarities {
-  final String? idRarities;
-  final String description;
+  String? idRarities;
+  String description;
 
   Rarities({
     this.idRarities, 

@@ -19,9 +19,12 @@ class RaritiesFirebaseServices extends RaritiesApi {
 
     final response = await http.get( url ); 
 
+
     if ( response.statusCode != 200 ) {
       throw Exception('Error server');
     }
+
+    logger.d('RESPONSE_API_RARITIES_GET_ALL: ${response.body}');
 
     return json.decode(response.body);
   }
@@ -38,7 +41,7 @@ class RaritiesFirebaseServices extends RaritiesApi {
       throw Exception( 'Server error' );
     }
 
-    logger.d('Respuesta de api de rarezas: ${response.body}');
+    logger.d('RESPONSE_API_RARITIES_GETBYID: ${response.body}');
 
     return json.decode(response.body);
 
@@ -58,7 +61,7 @@ class RaritiesFirebaseServices extends RaritiesApi {
       throw Exception('Serve error');
     } 
 
-    logger.d('Respuesta de api para guardar rareza: ${response.body}');
+    logger.d('RESPONSE_API_RARITIES_SAVE: ${response.body}');
 
     return json.decode( response.body );
 
@@ -75,6 +78,8 @@ class RaritiesFirebaseServices extends RaritiesApi {
     if ( response.statusCode != 200 ){
       throw Exception('Server error');
     }
+
+    logger.d('RESPONSE_API_RARITIES_DELETE: ${response.body}');
 
     return;
   }
@@ -98,7 +103,7 @@ class RaritiesFirebaseServices extends RaritiesApi {
       throw Exception('Server error');
     }
 
-    logger.d('Respuesta de api al actualizar rareza: ${response.body}' );
+    logger.d('RESPONSE_API_RARITIES_UPDATE: ${response.body}');
   
     return json.decode( response.body );
   }
