@@ -1,7 +1,7 @@
 
 class RolePlayer {
-  final String? idRolePlayer;
-  final String nameRole;
+  String? idRolePlayer;
+  String nameRole;
 
   RolePlayer({
     this.idRolePlayer, 
