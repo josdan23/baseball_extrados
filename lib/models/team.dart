@@ -2,8 +2,8 @@
 
 class Team {
 
-  final String? idTeam;
-  final String teamName;
+  String? idTeam;
+  String teamName;
 
   Team({
     this.idTeam, 
