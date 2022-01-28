@@ -2,8 +2,8 @@ import 'package:baseball_cards/models/serie.dart';
 
 class CollectionCard {
 
-  final String? idCollection;
-  final String description;
+  String? idCollection;
+  String description;
   // final Serie serie;
 
   CollectionCard({
