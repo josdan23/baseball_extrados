@@ -1,9 +1,9 @@
 
 class Player {
 
-  final String? idPlayer;
-  final String firstName;
-  final String lastName;
+  String? idPlayer;
+  String firstName;
+  String lastName;
 
   Player({
     this.idPlayer, 
