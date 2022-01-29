@@ -1,7 +1,7 @@
 class Serie {
-  final String? idSerie;
-  final String description;
-  final DateTime publicationDate;
+  String? idSerie;
+  String description;
+  DateTime publicationDate;
 
   Serie({
     this.idSerie, 
