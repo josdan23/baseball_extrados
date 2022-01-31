@@ -10,13 +10,13 @@ import 'package:baseball_cards/models/team.dart';
 class Card {
 
   String? idCard;
-  final Serie serie;
-  final Player player;
-  final Rarities rarities;
-  final Team team;
-  final RolePlayer rolPlayer;
-  final List<CollectionCard> collection;
-  final String? image;
+  Serie serie;
+  Player player;
+  Rarities rarities;
+  Team team;
+  RolePlayer rolPlayer;
+  List<CollectionCard> collection;
+  String? image;
 
   Card({
     this.idCard, 

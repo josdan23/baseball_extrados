@@ -1,3 +1,4 @@
+import 'package:baseball_cards/models/collection_card.dart';
 import 'package:logger/logger.dart';
 
 import 'package:baseball_cards/models/card.dart';
@@ -20,7 +21,9 @@ class CardMapper extends BaseMapper<Card> {
 
     try {
     
-      final list = (json['collection'] as List).map((e) => CollectionCardMapper().fromMap(e)).toList();
+      List<CollectionCard> list = [];
+      if (json['collection'] != null )
+        list = (json['collection'] as List).map((e) => CollectionCardMapper().fromMap(e)).toList();
       
       final Card card = Card(
         idCard: json['idCard'],
@@ -69,7 +72,7 @@ class CardMapper extends BaseMapper<Card> {
 
     return {
         "collection": List.from( card.collection.map((e) => CollectionCardMapper().toMap(e)) ),
-        "imagen": card.image,
+        "image": card.image,
         "player": PlayerMapper().toMap(card.player),
         "raritie": RaritiesMapper().toMap(card.rarities),
         "role": RolePlayerMapper().toMap(card.rolPlayer),

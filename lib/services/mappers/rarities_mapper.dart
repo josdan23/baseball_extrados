@@ -31,7 +31,7 @@ class RaritiesMapper extends BaseMapper<Rarities> {
     
     return {
         "description": rarities.description,
-        "idRarities": rarities.idRarities,
+        "idRaritie": rarities.idRarities,
     };
 
   }

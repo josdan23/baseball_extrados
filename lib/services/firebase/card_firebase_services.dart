@@ -3,55 +3,53 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 
-
-
 import 'package:baseball_cards/services/mappers/card_mapper.dart';
 import 'package:baseball_cards/services/config/server.dart';
 import 'package:baseball_cards/models/card.dart' ;
 import 'package:baseball_cards/services/cards_api.dart';
 
-//TODO: MANEJAR LOS CODIGOS DE RESPONSE
 class CardFirebaseServices extends CardsApi {
 
-  final Logger logger = Logger();
+  final Logger _logger = Logger();
+
 
   @override
-  Future<List<Card>> getAll() async {
+  Future<Map<String, dynamic>> getAll() async {
 
     final url = Uri.https( URL_SERVER, 'cards.json');
     final response = await http.get( url );
-    
-    logger.d('RESPONSE_API_GET_ALL_CARDS: ${response.body}');
+  
 
-    final Map<String, dynamic> cardsMap = json.decode( response.body );
-    
-    List<Card> cardList = CardMapper().fromMapToList( cardsMap );
+    if (response.statusCode != 200) {
+      _logger.e('No se pudo recuperar las cartas del servidor');
+      throw Exception('No se pudo recuperar todas las cartas del servidor');
+    }
 
-    logger.i('REQUIRE_GET_ALL_CARDS_OK: $cardList');
-
-    return cardList;
+    _logger.i( 'RESPONSE_API_CARDS_GET_ALL = ${response.body}');
+    return json.decode( response.body );
     
   }
   
 
   @override
-  Future<Card> getById(String id) async {
+  Future<Map<String, dynamic>> getById(String id) async {
     
     final url = Uri.https( URL_SERVER, 'cards/$id.json' );
     final response = await http.get(url);
 
-    logger.d('RESPONSE_API_GET_CARD_BY_ID: ${response.body}');
+    if (response.statusCode != 200) {
+      _logger.e('No se pudo recuperar una carta del servidor' );
+      throw Exception(' No se pudo recuperar una carta del servidor' );
+    }
 
-    final Map<String, dynamic> cardMap = json.decode( response.body );
-
-    Card card = CardMapper().fromMap( cardMap );
-
-    return card;
+    _logger.i( 'RESPONSE_API_CARDS_GET_By_Id = ${response.body}');    
+    return json.decode( response.body );
 
   }
 
+
   @override
-  Future<Card> save(Card card) async {
+  Future<Map<String, dynamic>> save(Card card) async {
 
     final url = Uri.https( URL_SERVER, 'cards.json');
     final response = await http.post( 
@@ -59,19 +57,18 @@ class CardFirebaseServices extends CardsApi {
       body: CardMapper().toJson(card)
     );
 
-    logger.d('RESPONSE_API_SAVE_NEW_CARD: ${response.body}');
+    if( response.statusCode != 200 && response.statusCode != 201 ){
+      _logger.e('No se pudo guardar la carta en el servidor');
+      throw Exception('No se pudo guardar la carta en el servidor' );
+    }
 
-    final responseMap = json.decode( response.body );
-
-    card.idCard = responseMap['name'];
-  
-    logger.i('REQUIRE_SAVE_NEW_CARD_OK: ${card.toString()}');
-
-    return card;
+    _logger.i('RESPONSE_API_CARDS_SAVE');
+    return json.decode( response.body );
   }
 
+
   @override
-  Future<Card> update( String cardId, Card card) async {
+  Future<Map<String, dynamic>> update( String cardId, Card card) async {
     
     final url = Uri.https( URL_SERVER, 'cards/$cardId.json');
     final response = await http.patch( 
@@ -79,27 +76,28 @@ class CardFirebaseServices extends CardsApi {
       body: CardMapper().toJson( card ) 
     );
 
-    logger.d('RESPONSE_API_UPDATE_CARD: ${response.body}');
+    if( response.statusCode != 200 ) {
+      _logger.e( 'No se pudo actualizar la carta en el servidor' );
+      throw Exception( 'No se pudo actualizar la carta en el servidor' );
+    }
 
-    final cardUpdated = CardMapper().fromMap( json.decode(response.body ));
-
-    logger.i('REQUIRE_UDPATED_CARD_OK: $cardUpdated');
-
-    return cardUpdated;
-
+    return json.decode( response.body );
   }
 
+
   @override
-  Future<void> delete(String id) async {
+  Future delete(String id) async {
     
     final url = Uri.https( URL_SERVER, 'cards/$id.json');
     final response = await http.delete( url );
 
-    logger.d('REPONSE_API_DELETE_CARD: ${response.body}');
+    if( response.statusCode != 200 ){
+      _logger.e( 'No se pudo borrar la carta en el servidor.' );
+      throw Exception( 'No se pudo borrar la carta en el servidor.' );
+    }
 
-    logger.i('REQUEST_DELETE_CARD_OK: $id');
+    return json.decode( response.body );
 
-    return;
   }
 
 }
