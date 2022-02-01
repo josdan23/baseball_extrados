@@ -25,9 +25,12 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
 
       print('Se obtuvo la carta ${card}');
 
+     
+        
+
       emit( DetailsInitial(
         serie: card.serie.description,
-        collection: card.collection[0].description,
+        collection: card.collection.length == 0 ? 'Sin colección' : card.collection[0].description,
         rarity: card.rarities.description,
         team: card.team.teamName,
         firstNamePlayer: card.player.firstName,

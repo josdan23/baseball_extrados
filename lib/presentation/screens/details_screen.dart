@@ -49,6 +49,8 @@ class _DetailsCard extends StatelessWidget {
 
         state as DetailsInitial;
 
+    
+
         return Stack(    
           children: [
   

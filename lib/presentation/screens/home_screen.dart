@@ -131,14 +131,14 @@ class _CollectionsFilters extends StatelessWidget {
       height: 50,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: 12,
+        itemCount: 10,
         itemBuilder: ( _ , index) {
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 4),
             child: InputChip(
               selectedColor: Colors.blue,
               backgroundColor: Colors.grey[200],
-              label: Text('hola'), 
+              label: Text('Col $index'), 
               selected: false,
               onSelected: (value){
 

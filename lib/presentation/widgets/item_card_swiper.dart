@@ -148,12 +148,14 @@ class _ImageCard extends StatelessWidget {
 
     final size = MediaQuery.of(context).size;
 
+   
+
     return Container(
       width: double.infinity,
       height: size.height * 0.55,
       child: FadeInImage(
         placeholder: AssetImage('assets/placeholder.png'),
-        image: NetworkImage( this.url ?? 'https://via.placeholder.com/200x350' ),
+        image: NetworkImage( url!.isEmpty ? 'https://via.placeholder.com/200x350' : url!),
         fit: BoxFit.cover,
       ),
     );
