@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
-import 'package:baseball_cards/repositories/user_repo.dart';
+import 'package:baseball_cards/data/repositories/user_repo.dart';
 import 'package:baseball_cards/models/user.dart';
 import 'package:baseball_cards/services/users_api.dart';
 

@@ -1,6 +1,6 @@
 
 import 'package:baseball_cards/models/card.dart' ;
-import 'package:baseball_cards/repositories/card_repo.dart';
+import 'package:baseball_cards/data/repositories/card_repo.dart';
 import 'package:baseball_cards/services/cards_api.dart';
 
 

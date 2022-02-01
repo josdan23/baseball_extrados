@@ -29,20 +29,6 @@ void main() {
 
 
 
-  test('DEBE_CONSEGUIR_USUARIO_DADO_EL_ID', () async {
-
-
-    final User userActual = await api.getUserById( '-Ms-p_Gz-MISJs0kS587' );
-
-    logger.v('USER_RETURNED_BY_THE_SERVICE: $userActual');
-
-    // assert( userActual.id != null );
-    expect(userTest, userActual);
-
-  });
-
-
-
   test('DEBE_INCREMENTAR_EN_1_LA_CANTIDAD_DE_USUARIOS_GUARDADOS_AL_CREAR_UN_NUEVO_USUARIO',() async {
 
     final allUsers =  await api.getAll();
