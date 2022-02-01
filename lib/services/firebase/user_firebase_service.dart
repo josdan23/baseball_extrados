@@ -3,113 +3,116 @@ import 'dart:convert';
 import 'package:logger/logger.dart';
 import 'package:http/http.dart' as http;
 
-
-
 import 'package:baseball_cards/services/mappers/user_mapper.dart';
 import 'package:baseball_cards/services/config/server.dart';
 import 'package:baseball_cards/services/users_api.dart';
 import 'package:baseball_cards/models/user.dart';
 
-
-//TODO: MANEJAR LOS CODIGOS DE LA REQUEST.
-
 class UserFirebaseService extends UserApi {
 
-  final Logger logger = Logger();
+  final Logger _logger = Logger();
 
   @override
-  Future<List<User>> getAll() async {
-
-    final url = Uri.https( URL_SERVER, 'users.json');
-    final response = await http.get( url );
-    logger.d('RESPONSE_API_GET_ALL_USER: ${response.body}');
-
-    final Map<String, dynamic> usersMap = json.decode( response.body );
-
-    final List<User> usersList = [];
-
-    usersMap.forEach((key, value) {
-      final userTemp = UserMapper().fromMap(value);
-      userTemp.id = key;
-
-      usersList.add(userTemp);
-    });
-
-    logger.i('REQUIRE_ALL_USER_OK: $usersList');
-    return usersList;
-  }
-
-  @override
-  Future<User> getUserById( String userId) async {
-  
-    final url = Uri.https( URL_SERVER, 'users/$userId.json');
-    final response = await http.get( url );
-
-    logger.d( 'RESPONSE_API_GET_USER_BY_ID: ${response.body}' );
-
-    final User user;
+  Future delete(String id) async {
     
-    try{
+    final url = Uri.https( URL_SERVER, 'users/$id.json' );
 
-      user = UserMapper().fromMap( json.decode(response.body));
-      user.id = userId;
+    final response = await http.delete( url );
 
-      logger.i('REQUIRE_USER_BY_ID_OK: ${user.toString()}' );
-      return user;
-    
-    } catch (e) {
-
-      logger.d(e);
-      throw Exception('No se pudo parsear');
-    
+    if (response.statusCode != 200 ){ 
+      _logger.e('No se pudo borrar el usuario de la api');
+      throw Exception('Error delete server');
     }
-  }
 
-  @override
-  Future<void> delete(String userId) async {
-   
-    final url = Uri.https( URL_SERVER, 'users/$userId.json');
-    final response = await http.delete(url);
-    logger.d('RESPONSE_API_DELETE_USER_BY_ID: ${response.body}');
+    _logger.d('RESPONSE_API_USUARIOS_DELETE: ${response.body}');
 
-    logger.i('REQUIRE_DELETE_USER_BY_ID_OK: $userId');
     return;
+
   }
 
   @override
-  Future<User> save(User userToSave) async {
-    
+  Future<Map<String, dynamic>> getAll() async {
+
     final url = Uri.https( URL_SERVER, 'users.json');
 
-    final response = await http.post( 
-      url, 
-      body: userToSave.toJson()
-    );
-    logger.d('RESPONSE_API_SAVE_NEW_USER: ${response.body}');
+    final response = await http.get( url );
 
-    final map = json.decode( response.body );
+    if ( response.statusCode != 200 ) {
+      _logger.w( 'No se obtuvo la lista de usuarios desde la api' );
+      throw Exception('Error server');
+    }
 
-    userToSave.id = map['name'];
+    _logger.d( 'RESPONSE_API_USUARIOS_GETALL: ${response.body}' );
 
-    logger.i( 'REQUIRE_SAVE_NEW_USER_OK: ${userToSave.toString()}' );
-    return userToSave;
+    return json.decode(response.body);
   }
-
 
   @override
-  Future<User> udpate(String userId, User user) async {
+  Future<Map<String, dynamic>> getById(String id) async {
+    final url = Uri.https( URL_SERVER, 'users/$id.json');
 
-    final url = Uri.https( URL_SERVER, 'users/$userId.json');
-    final response = await http.patch( url , body: UserMapper().toJson(user));
+    final response = await http.get( url );
 
-    logger.d('RESPONSE_API_UPDATE_USER: ${response.body}');
+    if ( response.statusCode != 200 ) {
+      _logger.e( 'No se obtuvo el usuaurio por id desde la api');
+      throw Exception('Server error');
+    }
 
-    final userUpdated = UserMapper().fromMap( json.decode(response.body ));
+    _logger.d('RESPONSE_API_USUARIO_GETBYID: ${response.body}');
 
-    logger.i( 'REQUIRE_UPDATE_USER_OK: $userUpdated');
 
-    return userUpdated;
+    return json.decode(response.body );
   }
+
+  @override
+  Future save(User t) async {
+    final url = Uri.https( URL_SERVER, 'users.json' );
+
+    final response = await http.post(
+      url,
+      body: UserMapper().toJson( t )
+    );
+
+    if ( response.statusCode != 200 && response.statusCode != 201 ) {
+      _logger.e('No se puedo crear el usuario en la api');
+      throw Exception( 'Server error' );
+    }
+
+    _logger.d('RESPONSE_API_USUARIO_SAVE: ${ response.body }' );
+
+    return json.decode( response.body );
+  }
+
+  @override
+  Future update(String id, User t) async {
+    
+    final url = Uri.https( URL_SERVER, 'players/$id.json');
+
+    final user = User(
+      mail: t.mail,
+      password: t.password, 
+      username: t.username
+    );
+
+    user.isActive = t.isActive;
+    user.role = t.role;
+
+    //todo: agregar colección de cartas
+
+    final response = await http.patch( 
+      url,
+      body: UserMapper().toJson( user ) );
+
+    if ( response.statusCode != 200 ) {
+      _logger.e('No se pudo actualizar Usuario en la api');
+      throw Exception('Server error');
+    } 
+
+    _logger.d('RESPONSE_API_USUARIO_UPDATE: ${response.body}');
+
+    return json.decode( response.body);
+
+  } 
 
 
 }

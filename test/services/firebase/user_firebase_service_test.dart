@@ -28,18 +28,6 @@ void main() {
   });
 
 
-  test('OBTENER_USUARIO_POR_ID', () async {
-
-    final UserApi api = UserFirebaseService();
-
-    final String userId = '-Ms-p_Gz-MISJds0kS587';
-
-    final user = await api.getUserById(userId);
-
-    print(user.toString());
-
-
-  });
 
   test('BORRAR_USUARIO_POR_ID', () async {
 
@@ -76,6 +64,47 @@ void main() {
     final userSaved = await api.save(user);
     
     print(userSaved.toString());
+  });
+
+
+  test('Listar todo los usuarios', () async  {
+
+    final api = UserFirebaseService();
+
+    final lista = await api.getAll();
+
+    print(lista);
+
+  });
+
+  test('Obtener un usuairo por id', () async {
+
+    final api = UserFirebaseService();
+
+    final response = await api.getById('-Ms-p_Gz-MISJs0kS587');
+
+    print(response);
+
+  });
+
+
+  test( 'Crear nuevo usuario por id', () async {
+
+    final User user = User(
+      role    : 'collector',
+      mail    : 'nuevoUsuario@mail.com', 
+      password: 'pass1234', 
+      username: 'nuevoUsuario'
+    );
+
+  
+
+    final api = UserFirebaseService();
+
+    final response = await api.save( user );
+
+    print( response ); 
+
   });
 
 

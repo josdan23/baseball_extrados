@@ -1,16 +1,7 @@
 
 import 'package:baseball_cards/models/user.dart';
+import 'package:baseball_cards/services/base_api.dart';
 
-abstract class UserApi {
-
-  Future<List<User>> getAll();
-
-  Future<User> getUserById( String userId);
-
-  Future<User> save( User user );
-
-  Future<void> delete( String userId );
-
-  Future<User> udpate( String userId, User user);
+abstract class UserApi extends BaseApi<User>{
 
 }
