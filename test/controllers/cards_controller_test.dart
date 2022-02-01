@@ -9,14 +9,20 @@ void main() {
     
     final CardController controller = CardController(CardFirebaseServices());
 
-    final cardList = await controller.getAllCards();
+    final lista = await controller.getAllCards();
 
-    cardList.forEach( (element) {
-
-      print(element.image);
-
-    });
+    print(lista);
  
+  });
+
+  test('Obtener una sola carta del contrller', () async {
+
+    final CardController controller = CardController( CardFirebaseServices());
+
+    final carta = await controller.getCardById('-MukRwAJsR--9N4HqPu7');
+
+    print(carta);
+
   });
 
 }

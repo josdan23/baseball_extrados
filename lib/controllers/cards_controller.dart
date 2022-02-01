@@ -1,18 +1,21 @@
 
 import 'package:baseball_cards/models/card.dart' ;
+import 'package:baseball_cards/repositories/card_repo.dart';
 import 'package:baseball_cards/services/cards_api.dart';
 
 
 class CardController { 
 
-  final CardsApi cardsApi;
+  late final CardRepo repo;
 
-  CardController(this.cardsApi);
+  CardController( CardsApi dataSource ) {
+    repo = CardRepo.getInstance(dataSource);
+  }
 
 
   Future<List<Card>> getAllCards() async {
 
-    List<Card> cardList = await cardsApi.getAll();
+    List<Card> cardList = await repo.getAllCards();
     
     return cardList;
   }
@@ -20,7 +23,7 @@ class CardController {
 
   Future<Card> getCardById( String cardId) async {
 
-    final Card card = await cardsApi.getById( cardId );
+    final card = await repo.getCardById( cardId );
 
     return card;
   }
@@ -28,23 +31,23 @@ class CardController {
 
   Future<Card> saveNewCard( Card newCard ) async {
 
-    final Card cardSaved = await cardsApi.save( newCard );
+    final newCardSaved = await repo.save( newCard );
 
-    return cardSaved;
+    return newCardSaved;
   }
 
 
   Future<void> deleteCard( String cardId ) async {
 
-    await cardsApi.delete( cardId );
+    await repo.delete( cardId );
   }
 
 
   Future<Card> updateCard( String cardId, Card cardToUpdate ) async {
 
-    final Card cardUpdated = await cardsApi.update( cardId, cardToUpdate );
+    final cardUpdated = await repo.update(cardId, cardToUpdate );
 
-    return cardUpdated;
+    return cardUpdated!;
 
   }
 
