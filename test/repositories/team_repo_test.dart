@@ -1,5 +1,5 @@
 import 'package:baseball_cards/models/team.dart';
-import 'package:baseball_cards/repositories/team_repo.dart';
+import 'package:baseball_cards/data/repositories/team_repo.dart';
 import 'package:baseball_cards/services/firebase/team_firebase_service.dart';
 import 'package:baseball_cards/services/team_api.dart';
 import 'package:flutter_test/flutter_test.dart';

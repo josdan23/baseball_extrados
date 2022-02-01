@@ -1,4 +1,4 @@
-import 'package:baseball_cards/repositories/user_repo.dart';
+import 'package:baseball_cards/data/repositories/user_repo.dart';
 import 'package:baseball_cards/services/firebase/user_firebase_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 

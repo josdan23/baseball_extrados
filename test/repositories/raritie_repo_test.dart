@@ -1,5 +1,5 @@
 import 'package:baseball_cards/models/rarities.dart';
-import 'package:baseball_cards/repositories/raritie_repo.dart';
+import 'package:baseball_cards/data/repositories/raritie_repo.dart';
 import 'package:baseball_cards/services/firebase/rarities_firebase_services.dart';
 import 'package:flutter_test/flutter_test.dart';
 

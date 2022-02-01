@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:baseball_cards/models/role_player.dart';
-import 'package:baseball_cards/repositories/roles_player_repo.dart';
+import 'package:baseball_cards/data/repositories/roles_player_repo.dart';
 import 'package:baseball_cards/services/firebase/roles_player_firebase_service.dart';
 
 void main() {

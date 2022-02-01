@@ -1,7 +1,7 @@
 
 
 import 'package:baseball_cards/models/serie.dart';
-import 'package:baseball_cards/repositories/serie_repo.dart';
+import 'package:baseball_cards/data/repositories/serie_repo.dart';
 import 'package:baseball_cards/services/firebase/serie_firebase_services.dart';
 import 'package:flutter_test/flutter_test.dart';
 

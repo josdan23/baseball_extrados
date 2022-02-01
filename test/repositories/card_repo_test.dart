@@ -5,7 +5,7 @@ import 'package:baseball_cards/models/rarities.dart';
 import 'package:baseball_cards/models/role_player.dart';
 import 'package:baseball_cards/models/serie.dart';
 import 'package:baseball_cards/models/team.dart';
-import 'package:baseball_cards/repositories/card_repo.dart';
+import 'package:baseball_cards/data/repositories/card_repo.dart';
 import 'package:baseball_cards/services/firebase/card_firebase_services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
