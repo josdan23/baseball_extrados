@@ -15,23 +15,20 @@ class LoginController {
 
   Future<bool> authenticate( String email, String password ) async {
 
-    bool userValid = false;
-
     List<User> users = await _repo.getAllUsers();
 
-    users.forEach((element) {    
-      if ( element.mail == email ) {
-        if (element.password == password ) {
-          userValid = true;
-          _repo.userAuthenticated = element;
+    for( var user in users) { 
+      if ( user.mail == email ) {
+        if (user.password == password ) {
+
+          _logger.i('USER_ID: ${user.mail} AUTHENTICATED!');
+          _repo.userAuthenticated = user;
+          return true;
         }
       }  
-    });
-
-    if (userValid){
-      _logger.i('USER_AUTHENTICATED'); 
     }
-  
-    return userValid;
+    
+    return false;
   }
+
 }
