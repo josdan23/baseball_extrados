@@ -1,6 +1,17 @@
 import 'dart:convert';
 
+import 'package:baseball_cards/models/card.dart';
+
 class User {
+
+    String? id;
+    bool isActive;
+    String mail;
+    String password;
+    String role;
+    String username;
+    List<String> cardList = [];
+
     User({
         id,
         this.isActive = true,
@@ -10,32 +21,25 @@ class User {
         required this.username,
     });
 
-    String? id;
-    bool isActive;
-    String mail;
-    String password;
-    String role;
-    String username;
+    // factory User.fromJson(String str) => User.fromMap(json.decode(str));
 
-    factory User.fromJson(String str) => User.fromMap(json.decode(str));
+    // String toJson() => json.encode(toMap());
 
-    String toJson() => json.encode(toMap());
+    // factory User.fromMap(Map<String, dynamic> json) => User(
+    //     isActive: json["isActive"],
+    //     mail: json["mail"],
+    //     password: json["password"],
+    //     role: json["role"],
+    //     username: json["username"],
+    // );
 
-    factory User.fromMap(Map<String, dynamic> json) => User(
-        isActive: json["isActive"],
-        mail: json["mail"],
-        password: json["password"],
-        role: json["role"],
-        username: json["username"],
-    );
-
-    Map<String, dynamic> toMap() => {
-        "isActive": isActive,
-        "mail": mail,
-        "password": password,
-        "role": role,
-        "username": username,
-    };
+    // Map<String, dynamic> toMap() => {
+    //     "isActive": isActive,
+    //     "mail": mail,
+    //     "password": password,
+    //     "role": role,
+    //     "username": username,
+    // };
 
     @override
   String toString() {
@@ -46,7 +50,8 @@ class User {
       ..write('mail: ${this.mail} - ')
       ..write('password: ${this.password} - ')
       ..write('role: ${this.role} - ')
-      ..write('username: ${this.username} }');
+      ..write('username: ${this.username} -')
+      ..write('cards: ${this.cardList} \n');
   
     return sb.toString();
   }

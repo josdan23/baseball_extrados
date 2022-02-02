@@ -85,6 +85,12 @@ void main() {
     // print(userSaved.toString());
   });
 
+  test('Obtener la lista de usuarios del servicio', () async {
+    final UserApi api = UserFirebaseService();
 
+    final  list = await api.getAll();
+
+    print(list);
+  });
 
 }

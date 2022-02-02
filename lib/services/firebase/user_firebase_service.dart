@@ -96,8 +96,8 @@ class UserFirebaseService extends UserApi {
 
     user.isActive = t.isActive;
     user.role = t.role;
+    user.cardList = t.cardList;
 
-    //todo: agregar colección de cartas
 
     final response = await http.patch( 
       url,

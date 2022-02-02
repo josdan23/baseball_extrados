@@ -14,14 +14,16 @@ class UserMapper extends BaseMapper<User> {
     try {
 
       user = User(
-        id: json['id'],
-        isActive: json["isActive"] ?? (throw Exception(' "isActive" no se encuentra en el json' )),
-        mail: json["mail"] ?? (throw Exception(' "mail" no se encuentra en el json' )),
-        password: json["password"] ?? (throw Exception(' "password" no se encuentra en el json' )),
-        role: json["role"] ?? (throw Exception(' "role" no se encuentra en el json' )),
-        username: json["username"] ?? (throw Exception(' "username" no se encuentra en el json' )),
+        id        : json['id'],
+        isActive  : json["isActive"] ?? (throw Exception(' "isActive" no se encuentra en el json' )),
+        mail      : json["mail"] ?? (throw Exception(' "mail" no se encuentra en el json' )),
+        password  : json["password"] ?? (throw Exception(' "password" no se encuentra en el json' )),
+        role      : json["role"] ?? (throw Exception(' "role" no se encuentra en el json' )),
+        username  : json["username"] ?? (throw Exception(' "username" no se encuentra en el json' )),
       );
-      
+
+      if (json['cards'] != null )
+        user.cardList = (json['cards'] as List).map((e) => e.toString()).toList() ;
       return user;
 
     } catch (e) {
@@ -41,6 +43,7 @@ class UserMapper extends BaseMapper<User> {
         "password"  : user.password,
         "role"      : user.role,
         "username"  : user.username,
+        'cards'     : user.cardList,
     };
   }
 

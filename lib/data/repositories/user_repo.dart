@@ -132,11 +132,14 @@ class UserRepo {
           oneUser.password = userUpdated.password;
           oneUser.role = userUpdated.role;
           oneUser.username = userUpdated.username;
+          oneUser.cardList = userToUpdate.cardList;
           
           return oneUser;
-        
         }
       }
+
+      _userList.add(userToUpdate);
+      return userToUpdate;
     
     } catch (e) {
       _logger.e( e );
