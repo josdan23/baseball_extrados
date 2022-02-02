@@ -1,3 +1,4 @@
+import 'package:baseball_cards/services/firebase/user_firebase_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:card_swiper/card_swiper.dart';
@@ -17,8 +18,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final CardsApi cardDataProvider = CardFirebaseServices();
-    final CardController controller = CardController(cardDataProvider);
+    // final CardsApi cardDataProvider = CardFirebaseServices();
+    final CardController controller = CardController( CardFirebaseServices(), UserFirebaseService());
   
 
     return BlocProvider(

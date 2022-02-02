@@ -1,5 +1,6 @@
 import 'package:baseball_cards/controllers/cards_controller.dart';
 import 'package:baseball_cards/services/firebase/card_firebase_services.dart';
+import 'package:baseball_cards/services/firebase/user_firebase_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -7,7 +8,7 @@ import 'package:baseball_cards/presentation/blocs/details_bloc/details_bloc.dart
 
 class DetailsScreen extends StatelessWidget {
 
-  final CardController _controller = CardController( CardFirebaseServices());
+  final CardController _controller = CardController( CardFirebaseServices(), UserFirebaseService());
   
   DetailsScreen({ Key? key }) : super(key: key);
 

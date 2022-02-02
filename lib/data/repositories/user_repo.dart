@@ -6,13 +6,13 @@ import 'package:logger/logger.dart';
 
 class UserRepo {
 
+  late User userAuthenticated; 
   final List<User> _userList = [];
-
   final UserApi _dataSource;
 
-  final Logger _logger = Logger();
-
   static UserRepo? _INSTANCE;
+
+  final Logger _logger = Logger();
 
   static UserRepo getInstance( UserApi dataSource ) {
 
