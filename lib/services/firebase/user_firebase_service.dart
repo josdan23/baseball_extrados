@@ -86,7 +86,7 @@ class UserFirebaseService extends UserApi {
   @override
   Future update(String id, User t) async {
     
-    final url = Uri.https( URL_SERVER, 'players/$id.json');
+    final url = Uri.https( URL_SERVER, 'users/$id.json');
 
     final user = User(
       mail: t.mail,

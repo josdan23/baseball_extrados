@@ -45,4 +45,25 @@ void main() {
 
   });
 
+
+  test('Intercambiar cartas', () async {
+
+    final CardController controller = CardController( CardFirebaseServices(), UserFirebaseService());
+
+    final allCards = await controller.getAllCards();
+
+  
+    final userRepo = UserRepo.getInstance(UserFirebaseService());
+
+    final user = await userRepo.getUserById('-MurecaAtzZs43ZJmW9J');
+
+    userRepo.userAuthenticated = user;
+
+    await controller.exchangeCard('-Ms-p_Gz-MISJs0kS587', '-MukRwAJsR--9N4HqPu7');
+
+    
+
+
+  });
+
 }

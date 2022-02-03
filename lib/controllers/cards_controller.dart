@@ -87,6 +87,19 @@ class CardController {
   }
 
 
+  Future exchangeCard( String userReceptorId, String cardExchangeId) async {
+
+    final userReceptor = await _userRepo.getUserById( userReceptorId );
+    userReceptor.cardList.add(cardExchangeId);
+    await _userRepo.update(userReceptorId, userReceptor);
+
+    final loggedUser = _userRepo.userAuthenticated;
+    loggedUser.cardList.remove( cardExchangeId );
+    await _userRepo.update( loggedUser.id!, loggedUser);
+
+  }
+
+
   //XXX FEATURE: buscar cartas por alguna propiedad.
   Future<Card> searchCard( String query ) async {
 

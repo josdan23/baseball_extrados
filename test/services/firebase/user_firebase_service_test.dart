@@ -108,4 +108,21 @@ void main() {
   });
 
 
+  test('Actualizar usuario', () async {
+
+      final User user = User(
+      role    : 'collector',
+      mail    : 'actualizadoUsuario@mail.com', 
+      password: 'pass1234', 
+      username: 'nuevoUsuario'
+    );
+
+
+    final response = await api.update('-MurdSNiX9m_KS_aLmt4', user);
+
+    print(response);
+
+  });
+
+
 }
