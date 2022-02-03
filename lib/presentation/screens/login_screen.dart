@@ -1,28 +1,30 @@
-import 'package:baseball_cards/controllers/login_controller.dart';
-import 'package:baseball_cards/services/firebase/user_firebase_service.dart';
-import 'package:baseball_cards/services/users_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:baseball_cards/controllers/login_controller.dart';
 import 'package:baseball_cards/presentation/blocs/login_bloc/login_bloc.dart';
+import 'package:baseball_cards/presentation/widgets/button_widget.dart';
+import 'package:baseball_cards/presentation/widgets/text_field_widget.dart';
+import 'package:baseball_cards/services/firebase/user_firebase_service.dart';
 
 class LoginScreen extends StatelessWidget {
+
   const LoginScreen({ Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
-    final UserApi userDataProvider = UserFirebaseService();
-    final LoginController controller = LoginController(userDataProvider);
-    
- 
+    final LoginController controller = LoginController(UserFirebaseService());
+  
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        
+
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: BlocProvider(
+
           create: ( _ ) => LoginBloc(controller),
           child: _LoginForm(),
+
         )
       ),
     );
@@ -40,95 +42,130 @@ class _LoginForm extends StatelessWidget {
         if( state is SuccessLogin)
           Navigator.pushReplacementNamed(context, 'home');
         
-        if( state is FailureLogin ) 
-          _showSnackBar(context);
+        // if( state is FailureLogin ) 
+          // _showSnackBar(context);
 
       },
-      child: Form(
-          // key: loginFormProvider.formKey,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-    
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-    
-              const Text(
-                'Bievenido',
-                style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.black87 )
-              ),
+      child: SingleChildScrollView(
+        child: SafeArea(
+          child: Form(
             
-              const SizedBox(height: 36,),
-    
-            //INPUT PARA EL MAIL
-             _EmailInput(),
-    
-              const SizedBox(height: 24,),
+              child: Column(
+        
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+        
+                children: [
+        
+                  Container(
+                    color: Colors.grey[100],
+                    height: 180,
+                  ),
+      
+                  SizedBox(height: 24),
+        
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child:  _HeaderText(),
+                  ),
+                
+                  SizedBox(height: 50),
             
-              // INPUT PARA EL PASSWORD
-              _PasswordInput(),
-              
-              const SizedBox(height: 24,),
+                  _EmailInput(),
             
-              _LoginButton()
-    
-            ],
-          )
+                  SizedBox(height: 24),
+      
+                  _PasswordInput(),
+                  
+                  SizedBox(height: 20),
+      
+                  Text('Correo o contraseña incorrecta', style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+                  
+                  SizedBox(height: 36),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: const [
+        
+                      _RegisterButton(),
+        
+                      _LoginButton()
+                    ],
+                  ),
+            
+                ],
+              )
+            ),
         ),
+      ),
     );
   }
 
+}
 
-  void _showSnackBar(BuildContext context) {
-   
-    ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
-      content: Text('Usuario o contraseña incorrectos')
-    ));
+class _HeaderText extends StatelessWidget {
+  const _HeaderText({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+
+    return RichText(
+      text: const TextSpan(
+        style: TextStyle(fontSize: 32, color: Colors.black87, fontWeight: FontWeight.w600),
+        children: <TextSpan> [
+          TextSpan(
+            text: 'Colecciona',
+            style: TextStyle(color: Colors.purple)
+          ),
+          TextSpan(
+            text: ' a todos tus deportistas favoritos en un      solo lugar'
+          )
+        ]
+      ),
+    );
+  }
+}
+
+class _RegisterButton extends StatelessWidget {
+  const _RegisterButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ButtonWidget(
+      text: 'Registro',
+      colorText: Colors.purple,
+      onPressed: (){
+        print('registrarse');
+      }, 
+    );
   }
 }
 
 
 class _LoginButton extends StatelessWidget {
+  const _LoginButton({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
-
-    return BlocBuilder<LoginBloc, LoginState>(
-      builder: (context, state) {
-
-
-        return MaterialButton(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          elevation: 0,
-          color: Colors.blueAccent,
-          child: Container(
-            height: 56,
-            width: double.infinity,
-            alignment: Alignment.center,
-            child: 
-
-              (state is ValidatingForm )
-                ? const CircularProgressIndicator(
-                  color: Colors.white,
-
-                )
-
-                : const Text(
-                  'Iniciar Sesión',
-                  style: TextStyle( color: Colors.white, fontSize: 16)) 
-          ),
-          
-          onPressed: ()  {
-  
-            BlocProvider.of<LoginBloc>(context).add( LoginFormSubmitted() );
-
-          }, 
-        );
-      },
+    return ButtonWidget(
+      colorBackground: Colors.purple, 
+      colorText: Colors.white,
+      text: 'Iniciar Sessión', 
+      icon: Icons.arrow_forward_rounded, 
+      onPressed: ()  {
+        print('Iniciar sesión');
+      }
     );
   }
 }
+
+
 
 class _EmailInput extends StatelessWidget {
 
@@ -138,20 +175,13 @@ class _EmailInput extends StatelessWidget {
       return BlocBuilder<LoginBloc, LoginState>(
 
         builder: (context, state) {
-          return TextFormField(
-            autocorrect: false,
-            decoration: InputDecoration(
-              hintText: 'Ingrese su mail',
-              prefixIcon: const Icon(Icons.mail), 
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(10),), 
-            ),
-          
-            validator: (value) => null ,
-      
-            onChanged: (value) {
-              BlocProvider.of<LoginBloc>(context).add(EmailChanged(value));
-            },
-      
+
+          return TextFieldWidget(
+            text: 'Mail', 
+            icon: Icons.mail, 
+            onChanged: ( value ) {
+              print(value);
+            }
           );
         },
       );
@@ -165,23 +195,13 @@ class _PasswordInput extends StatelessWidget{
 
     return BlocBuilder<LoginBloc, LoginState>(
       builder: (context, state) {
-        return TextFormField(
-          obscureText: true,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            hintText: 'Ingrese su password',
-            prefixIcon: const Icon(Icons.lock) , 
-          ),
-    
-          validator: (value) => null,
-          
-          onChanged: ( value ) {
-            BlocProvider.of<LoginBloc>(context).add( PasswordChanged( value ));
-          },
-         
-        );
+        return TextFieldWidget(
+            text: 'Contraseña', 
+            icon: Icons.lock, 
+            onChanged: ( value ) {
+              print(value);
+            }
+          );
       },
     );  
   }
