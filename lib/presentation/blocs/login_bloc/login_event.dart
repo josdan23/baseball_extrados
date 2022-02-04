@@ -19,3 +19,7 @@ class PasswordChanged extends LoginEvent {
 class LoginFormSubmitted extends LoginEvent {
 
 }
+
+class RegisterPressed extends LoginEvent {
+  
+}

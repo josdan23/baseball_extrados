@@ -11,47 +11,46 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   final LoginController controller;
 
-  LoginBloc(this.controller) : super(LoginInitial()) {
+  LoginBloc(this.controller) : super(LoginState()) {
     on<EmailChanged>( _onLoginEmailChange );
     on<PasswordChanged>( _onLoginPasswordChange );
     on<LoginFormSubmitted>( _onLoginFormSubmitted );
+    on<RegisterPressed>( _onRegisterPressed );
   }
 
   void _onLoginEmailChange(EmailChanged event, Emitter<LoginState> emit) {
 
-    final estado = state as LoginInitial;
     print('Event email: ${event.email}');
-
-    emit( estado.copyWith(mail: event.email));
+    emit( state.copyWith(mail: event.email) );
 
   }
 
   void  _onLoginPasswordChange(PasswordChanged event, Emitter<LoginState> emit) {
 
-      final mystate = state as LoginInitial;
       print('Event password: ${event.password}');
-  
-      emit( mystate.copyWith( password: event.password));
+      emit( state.copyWith( password: event.password ) );
     
   }
 
 
   void _onLoginFormSubmitted(LoginFormSubmitted event, Emitter<LoginState> emit) async {
     
-    final initialState = state as LoginInitial;
+    emit( state.copyWith(stateForm: StateForm.VALIDATING_FORM) );
 
-    emit( ValidatingForm());
+    print('estadoEmail: ${state.mail}');
+    print('estadoPassword: ${state.password}');
 
-    print('estadoEmail: ${initialState.mail}');
-    print('estadoPassword: ${initialState.password}');
+    final isAuthenticate = await controller.authenticate(state.mail, state.password );
 
-    final isAuthenticate = await controller.authenticate(initialState.mail, initialState.password );
+    (isAuthenticate) 
+      ? emit( state.copyWith(stateForm: StateForm.VALID_FORM) )
+      : emit( state.copyWith(stateForm: StateForm.WRONG_FORM) );
 
-    if (isAuthenticate)
-      emit(SuccessLogin());
-    else
-      emit(FailureLogin());
-    emit( initialState.copyWith());
-    
+  }
+
+  void _onRegisterPressed(RegisterPressed event, Emitter<LoginState> emit) {
+
+    print('Se solicitar registro');
+
   }
 }

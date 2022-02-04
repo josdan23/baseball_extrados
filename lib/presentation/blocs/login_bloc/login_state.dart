@@ -1,32 +1,33 @@
 part of 'login_bloc.dart';
 
-@immutable
-abstract class LoginState {}
 
-class LoginInitial extends LoginState {
+enum StateForm {
+  INITIAL_FORM,
+  VALIDATING_FORM,
+  VALID_FORM,
+  WRONG_FORM,
+}
+
+class LoginState {
 
   final String mail;
   final String password;
+  final StateForm stateForm;
 
-  LoginInitial({
-    this.mail = '', 
-    this.password = '',
-  });
+  LoginState({this.mail = '', this.password = '', this.stateForm = StateForm.INITIAL_FORM});
 
-  LoginInitial copyWith({
+  LoginState copyWith({
     String? mail,
     String? password,
+    StateForm? stateForm
   }) {
-    return LoginInitial(
-      mail: mail ?? this.mail, 
-      password: password ?? this.password
+
+    return LoginState(
+      mail: mail ?? this.mail,
+      password: password ?? this.password,
+      stateForm: stateForm ?? this.stateForm,
     );
+
   }
+
 }
-
-
-class ValidatingForm extends LoginState {}
-
-class SuccessLogin extends LoginState {}
-
-class FailureLogin extends LoginState {}

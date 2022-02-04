@@ -21,13 +21,15 @@ class LoginController {
       if ( user.mail == email ) {
         if (user.password == password ) {
 
-          _logger.i('USER_ID: ${user.mail} AUTHENTICATED!');
+          _logger.d('USER_ID: ${user.mail} AUTHENTICATED!');
           _repo.userAuthenticated = user;
+          
           return true;
         }
       }  
     }
     
+    print('Usuario NO autenticado');
     return false;
   }
 

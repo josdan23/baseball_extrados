@@ -17,6 +17,7 @@ class LoginScreen extends StatelessWidget {
     final LoginController controller = LoginController(UserFirebaseService());
   
     return Scaffold(
+
       body: Padding(
 
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -39,13 +40,12 @@ class _LoginForm extends StatelessWidget {
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         
-        if( state is SuccessLogin)
+        if( state.stateForm == StateForm.VALID_FORM) {
           Navigator.pushReplacementNamed(context, 'home');
-        
-        // if( state is FailureLogin ) 
-          // _showSnackBar(context);
-
+        }
+   
       },
+
       child: SingleChildScrollView(
         child: SafeArea(
           child: Form(
@@ -62,26 +62,26 @@ class _LoginForm extends StatelessWidget {
                     height: 180,
                   ),
       
-                  SizedBox(height: 24),
+                  const SizedBox(height: 24),
         
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     child:  _HeaderText(),
                   ),
                 
-                  SizedBox(height: 50),
+                  const SizedBox(height: 50),
             
                   _EmailInput(),
             
-                  SizedBox(height: 24),
+                  const SizedBox(height: 24),
       
                   _PasswordInput(),
                   
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
       
-                  Text('Correo o contraseña incorrecta', style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
-                  
-                  SizedBox(height: 36),
+                  const _ErrorMessage(),
+              
+                  const SizedBox(height: 36),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -101,6 +101,29 @@ class _LoginForm extends StatelessWidget {
     );
   }
 
+}
+
+class _ErrorMessage extends StatelessWidget {
+  const _ErrorMessage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<LoginBloc, LoginState>(
+      builder: (context, state) {
+
+        if (state.stateForm == StateForm.WRONG_FORM) {
+          return const Text(
+            'Mail o password incorrecto',
+            style: TextStyle(color: Colors.red, fontWeight: FontWeight.w600 ),
+          );
+        }
+        return const Text('');
+
+      },
+    );
+  }
 }
 
 class _HeaderText extends StatelessWidget {
@@ -135,12 +158,16 @@ class _RegisterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ButtonWidget(
-      text: 'Registro',
-      colorText: Colors.purple,
-      onPressed: (){
-        print('registrarse');
-      }, 
+    return BlocBuilder<LoginBloc, LoginState>(
+      builder: (context, state) {
+        return ButtonWidget(
+          text: 'Registro',
+          colorText: Colors.purple,
+          onPressed: (){
+            print('registrame');
+          }
+        );
+      },
     );
   }
 }
@@ -153,14 +180,26 @@ class _LoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ButtonWidget(
-      colorBackground: Colors.purple, 
-      colorText: Colors.white,
-      text: 'Iniciar Sessión', 
-      icon: Icons.arrow_forward_rounded, 
-      onPressed: ()  {
-        print('Iniciar sesión');
-      }
+    
+    return BlocBuilder<LoginBloc, LoginState>(
+
+      builder: (context, state) {
+
+        return ButtonWidget(
+          colorBackground: Colors.purple, 
+          colorText: Colors.white,
+          text: 'Iniciar Sessión', 
+          icon: (state.stateForm == StateForm.VALIDATING_FORM) 
+            ? Icons.timelapse_outlined
+            : Icons.arrow_forward_rounded, 
+          onPressed: (state.stateForm == StateForm.VALIDATING_FORM) 
+            ? (){  }
+            : () {
+              FocusScope.of(context).unfocus();
+              BlocProvider.of<LoginBloc>(context).add( LoginFormSubmitted());
+            }
+        );
+      },
     );
   }
 }
@@ -180,7 +219,7 @@ class _EmailInput extends StatelessWidget {
             text: 'Mail', 
             icon: Icons.mail, 
             onChanged: ( value ) {
-              print(value);
+              BlocProvider.of<LoginBloc>(context).add( EmailChanged(value) );
             }
           );
         },
@@ -198,8 +237,9 @@ class _PasswordInput extends StatelessWidget{
         return TextFieldWidget(
             text: 'Contraseña', 
             icon: Icons.lock, 
+            obscureText: true,
             onChanged: ( value ) {
-              print(value);
+              BlocProvider.of<LoginBloc>(context).add( PasswordChanged(value) );
             }
           );
       },
