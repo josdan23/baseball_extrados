@@ -1,164 +1,175 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:baseball_cards/models/card.dart' as bscard;
+import 'package:baseball_cards/models/card.dart' as baseball_card;
 
 
 class CardItem extends StatelessWidget {
 
-  final bscard.Card card;
+  final baseball_card.Card card;
+  final Function()? onTap;
 
   const CardItem({
     Key? key, 
-    required this.card
+    required this.card, 
+    required this.onTap, 
+
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
-    return Container(
-      // color: Colors.red,    
+
+    return  GestureDetector(
+      
+      onTap: this.onTap,
+
       child: Column(
         children: [
-          
-          Stack(
-            alignment: AlignmentDirectional.bottomCenter,
-            children: [
-              GestureDetector(
-                onTap: () {
-
-                  //TODO: mandar info del jugador para ver los detalles
-                  Navigator.pushNamed(context, 'details', arguments: {'idCard': card.idCard});
+          Card(
+            elevation: 10,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            clipBehavior: Clip.antiAlias,
+            child: Column(
+              children: [
                 
-                },
 
-                child: Card(
-                  elevation: 8,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-                  clipBehavior: Clip.antiAlias,
-                  child: Stack(
-                    children:  [
-                      
-                      _ImageCard( url: card.image ),
-
-
-                      _FilterCard( raritie: card.rarities.description, ),
-              
-                      Container(
-                        // color: Colors.red,
-                        height: MediaQuery.of(context).size.height * 0.55,
-                        width: double.infinity,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-              
-                            FadeInImage(
-                              height: 50,
-                              placeholder: AssetImage('assets/boca_logo.png'), 
-                              image: AssetImage('assets/boca_logo.png')
-                            ),
-              
-                            SizedBox(height: 20,),
-              
-                            Text( card.player.firstName, style: TextStyle(fontSize: 16, color: Colors.white)),
-                            
-                            Text( card.player.lastName, style: TextStyle(fontSize: 36, color: Colors.white)),
-              
-                            SizedBox(height: 30,)
-                          ]
-                        )
-                      ),
-              
-                    ]
-                  ),
+                _ImageInCard( 
+                  urlImage:  ( this.card.image == "") 
+                    ? 'https://via.placeholder.com/200x200'
+                    : this.card.image!
                 ),
-              ),
-
-            ] 
-          ),
-
-          SizedBox(height: 20,),
           
-          Text('SERIE'),
-          Text(card.serie.description, style: TextStyle(fontSize: 18)),
+                const SizedBox(height: 16,),
+          
+                //rarity of card
+                Text( this.card.rarities.description, 
+                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),),
+    
+                const SizedBox(height: 10,),
+    
+                //First and Last name of player
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Text( '${this.card.player.lastName} ${this.card.player.firstName}', 
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1, ),
+                ),
+          
+                SizedBox(height: 12,),
+          
+                _TeamAndRolPanel(
+                  team: this.card.team.teamName,
+                  rolPlayer: this.card.rolPlayer.nameRole,
+                ),
+    
+                SizedBox(height: 24,),
+                
+              ],
+            ),
+          
+          ),
         ],
       ),
     );
   }
 }
 
-class _FilterCard extends StatelessWidget {
-  
-  final String raritie;
+class _TeamAndRolPanel extends StatelessWidget {
 
-  const _FilterCard({
+  final String team;
+  final String rolPlayer;
+
+  const _TeamAndRolPanel({
     Key? key, 
-    required this.raritie
+    required this.team, 
+    required this.rolPlayer,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.55,
-      decoration: BoxDecoration(
-        gradient: RadialGradient(
-          center: Alignment(0, -0.1), 
-          radius: 0.9,
-          colors: [
-            Color.fromRGBO(33, 29, 28, 0.1),
-            colorRaritie( raritie ),
-          ],
-          stops: <double>[0.4, 1.0],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24),
+          color: Colors.grey.shade100
         ),
-      )
-    );
-  }
-
-  //FIXME: cambiar el color
-  Color colorRaritie( String raritie) {
-
-    switch (raritie) {
-      case 'gold':
-        return const Color.fromRGBO(223, 205, 49 , 0.8);
-      case 'silver':
-        return const Color.fromRGBO(174, 172, 172 , 0.8); 
-      case 'bronze':
-        return const Color.fromRGBO(199, 116, 66 , 0.8);
-      
-      default:
-        return const Color.fromRGBO(174, 172, 172 , 0.8); 
-
-    }
-  }
-}
-
-class _ImageCard extends StatelessWidget {
-
-  final String? url;
-
-  const _ImageCard({
-    required this.url
-  });
-
-
-
-  @override
-  Widget build(BuildContext context) {
-
-    final size = MediaQuery.of(context).size;
-
-   
-
-    return Container(
-      width: double.infinity,
-      height: size.height * 0.55,
-      child: FadeInImage(
-        placeholder: AssetImage('assets/placeholder.png'),
-        image: NetworkImage( url!.isEmpty ? 'https://via.placeholder.com/200x350' : url!),
-        fit: BoxFit.cover,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //TODO: CAMBIAR ICONOS 
+            children: [
+              _IconInfoItem(text: this.team, icon: Icons.access_alarm_outlined),
+              _IconInfoItem(text: this.rolPlayer, icon: Icons.connected_tv),
+            ]
+          ),
+        ),
       ),
     );
   }
 }
 
+class _IconInfoItem extends StatelessWidget {
+
+  final String text;
+  final IconData icon;
+
+  const _IconInfoItem({
+    Key? key,
+    required this.text,
+    required this.icon,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children:  [
+
+          Icon(
+            icon,
+            size: 24,
+          ),
+          
+          const SizedBox(height: 12,),
+    
+          Text(
+            text,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ImageInCard extends StatelessWidget {
+
+  final String urlImage;
+
+  const _ImageInCard({
+    Key? key,
+    required this.urlImage,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Container(
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
+      height: MediaQuery.of(context).size.height * 0.35,
+      width: double.infinity,
+      clipBehavior: Clip.antiAlias,
+      child: FadeInImage(
+        fit: BoxFit.cover,
+        placeholder: const AssetImage('assets/baseball_loading.gif'),
+        image: NetworkImage(this.urlImage),
+      ),
+    );
+  }
+}

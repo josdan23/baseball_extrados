@@ -28,7 +28,7 @@ class CardMapper extends BaseMapper<Card> {
       final Card card = Card(
         idCard: json['idCard'],
         collection: list,
-        image: json['image'],
+        image: json['image'] ,
         player: PlayerMapper().fromMap(json["player"]),
         rarities: RaritiesMapper().fromMap(json["raritie"]),
         rolPlayer: RolePlayerMapper().fromMap(json["role"]),

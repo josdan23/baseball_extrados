@@ -1,15 +1,13 @@
-import 'package:baseball_cards/services/firebase/user_firebase_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:card_swiper/card_swiper.dart';
 
 import 'package:baseball_cards/controllers/cards_controller.dart';
-import 'package:baseball_cards/models/card.dart' as bscard;
 import 'package:baseball_cards/presentation/blocs/home_bloc/home_bloc.dart';
-import 'package:baseball_cards/services/cards_api.dart';
+import 'package:baseball_cards/presentation/widgets/item_card_swiper.dart';
+import 'package:baseball_cards/services/firebase/user_firebase_service.dart';
 import 'package:baseball_cards/services/firebase/card_firebase_services.dart';
 
-import 'package:baseball_cards/presentation/widgets/item_card_swiper.dart';
 
 
 class HomeScreen extends StatelessWidget {
@@ -18,9 +16,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    // final CardsApi cardDataProvider = CardFirebaseServices();
-    final CardController controller = CardController( CardFirebaseServices(), UserFirebaseService());
-  
+    final CardController controller = CardController( CardFirebaseServices(), UserFirebaseService() );
 
     return BlocProvider(
       create: (context) {
@@ -30,13 +26,14 @@ class HomeScreen extends StatelessWidget {
         return bloc;
       },
       child: Scaffold(
+          backgroundColor: Colors.white,
           //APPBAR  
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             centerTitle: false,
             elevation: 0,
-            title: Text(
-              'Mis cartas', 
+            title: const Text(
+              'Mi colección', 
               style: TextStyle(
                 color: Colors.black, 
                 fontWeight: FontWeight.bold,
@@ -47,39 +44,22 @@ class HomeScreen extends StatelessWidget {
     
               //BUSCAR
               _SearchButton(),
-    
               SizedBox(width: 4,),
               // PERFIL DE USUARIO
               _ProfileButton(),
-    
               SizedBox(width: 16,),
             ],
           ),
-    
-          // BODY
-          //backgroundColor: Colors.amber,
-          body: Column(
-            children: [
+
+          body: Center(
+            child: Column(
+              children: [
       
-              SizedBox(height: 20,),
+                _CardSwipper(),
       
-              _CollectionsFilters(),
-      
-              SizedBox(height: 20,),
-          
-              _CardSwipper(),
-      
-            ],
+              ],
+            ),
           ),
-          floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.add),
-            // backgroundColor: Colors.red,
-            onPressed: () {
-    
-              //TODO: implementar creación de nueva carta
-            
-            },
-          )
         ),
     );
   }
@@ -121,38 +101,6 @@ class _ProfileButton extends StatelessWidget {
   }
 }
 
-class _CollectionsFilters extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-
-    return Container(
-      // color: Colors.red,
-      // width: double.infinity,
-      height: 50,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: 10,
-        itemBuilder: ( _ , index) {
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 4),
-            child: InputChip(
-              selectedColor: Colors.blue,
-              backgroundColor: Colors.grey[200],
-              label: Text('Col $index'), 
-              selected: false,
-              onSelected: (value){
-
-                //TODO: filtrar por colección seleccionado
-
-              }
-            ),
-          );
-        }
-      ),
-    );
-  }
-}
 
 
 class _CardSwipper extends StatelessWidget {
@@ -160,40 +108,43 @@ class _CardSwipper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final size = MediaQuery.of(context).size;
-
     return BlocBuilder<HomeBloc, HomeState>(
+
       builder: (context, state) {
-
-          if (state is LoadingCards){
-            return Center(child: CircularProgressIndicator());
-          }
+        
+        if (state is HomeInitial) {
           
+          final cardsList = state.cards;
 
+          return Container(
 
-         List<bscard.Card> listCards = [];
-          if (state is HomeInitial)
-            listCards = state.cards;
-
-          print('CARTAS MOSTRADAS EN EL BLOC: ${listCards.length}');
+            height: MediaQuery.of(context).size.height * 0.7,
+            width: double.infinity,
+            child: Swiper(
+              itemCount: cardsList.length,
+              viewportFraction: 0.8,
+              scale: 0.9,
+              loop: false,
+              itemBuilder: (BuildContext context,int index) {
+                return CardItem(
+                  card: cardsList[index],
+                  onTap: () {
+                    print(' Se presiona una carta');
+                  },
+                );
+              }
+            ),
+          );
+        }
 
         return Container(
-          height: size.height * 0.7,
-          child: Swiper(
-            itemCount: listCards.length,
-            viewportFraction: 0.8,
-            scale: 0.9,
-            loop: false,
-            itemBuilder: (BuildContext context,int index){
-              
-            
-              return CardItem(
-                card: listCards[index],
-              );
-    
-            },
+          height: MediaQuery.of(context).size.height * 0.8,
+          width: double.infinity,
+          child: const Center(
+            child: Image(image: AssetImage('assets/baseball_loading.gif')),
           ),
         );
+
       },
     );
   }

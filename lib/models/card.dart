@@ -40,7 +40,7 @@ class Card {
       ..write('\t${this.team.toString()}\n')
       ..write('\t${this.rolPlayer.toString()}\n')
       ..write('\t${this.collection.toString()}\n')
-      ..write('\t${this.image}\n')
+      ..write('\timage: ${this.image}\n')
       ..write('}');
 
     return sb.toString();
