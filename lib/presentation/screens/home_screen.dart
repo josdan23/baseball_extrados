@@ -57,7 +57,7 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
     
-          bottomNavigationBar: const BottonNavBarWidget(),
+          bottomNavigationBar: const BottonNavBarWidget(index: 0),
     
           body: BlocBuilder<HomeBloc, HomeState>(
             builder: (context, state) {
@@ -101,26 +101,23 @@ class _CardSwipper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Container(
+    return Swiper(
+      itemCount: cardsList.length,
+      viewportFraction: 0.8,
+      scale: 0.9,
+      loop: false,
+      itemBuilder: (BuildContext context,int index) {
+        return CardItem(
+          card: cardsList[index],
+          onTap: () {
 
-      child: Swiper(
-        itemCount: cardsList.length,
-        viewportFraction: 0.8,
-        scale: 0.9,
-        loop: false,
-        itemBuilder: (BuildContext context,int index) {
-          return CardItem(
-            card: cardsList[index],
-            onTap: () {
+            bsCard.Card card = cardsList[index];
 
-              bsCard.Card card = cardsList[index];
-
-              Navigator.of(context).pushNamed('details', arguments: { 'idCard': card.idCard } );
-              
-            },
-          );
-        }
-      ),
+            Navigator.of(context).pushNamed('details', arguments: { 'idCard': card.idCard } );
+            
+          },
+        );
+      }
     );
   }
 
