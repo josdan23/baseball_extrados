@@ -19,12 +19,12 @@ class CardItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-
     return  GestureDetector(
       
       onTap: this.onTap,
 
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Card(
             elevation: 10,

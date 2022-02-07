@@ -5,12 +5,12 @@ part of 'home_bloc.dart';
 @immutable
 abstract class HomeState {}
 
-class HomeInitial extends HomeState {
+class HomeInitialState extends HomeState {}
 
+class LoadingCardsState extends HomeState {}
+
+class LoadedCardsState extends HomeState {
   final List<bscard.Card> cards;
 
-  HomeInitial( [ this.cards = const [] ]);
-
+  LoadedCardsState( {required this.cards });
 }
-
-class LoadingCards extends HomeState {}
