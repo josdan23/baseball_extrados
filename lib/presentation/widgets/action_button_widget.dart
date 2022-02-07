@@ -15,17 +15,16 @@ class ActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 8.0),
+      padding: const EdgeInsets.only(right: 8.0, top: 2),
       child: Container(
 
         decoration: BoxDecoration(
           border: Border.all(color: Colors.black12),
-          // color: Colors.amber,
           borderRadius: BorderRadius.circular(22),
         ),
 
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 1),
+          padding: const EdgeInsets.symmetric(horizontal: 2),
           child: IconButton(
             icon: Icon(this.icon, color: Colors.black54,), 
             onPressed: this.onPresss,

@@ -1,3 +1,5 @@
+import 'package:baseball_cards/models/card.dart' as bsCard;
+import 'package:baseball_cards/presentation/widgets/action_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:card_swiper/card_swiper.dart';
@@ -34,7 +36,25 @@ class HomeScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 fontSize: 24,
               )
-            )
+            ),
+            actions: [
+
+              ActionButton(
+                icon: Icons.search, 
+                onPresss: (){ 
+                  print('buscar');
+                }
+              ),
+
+              ActionButton(
+                icon: Icons.add,
+                onPresss: () {
+                  print('agregar');
+                },
+              ),
+
+              
+            ],
           ),
     
           bottomNavigationBar: const BottonNavBarWidget(),
@@ -62,15 +82,15 @@ class HomeScreen extends StatelessWidget {
              
               return Container();
 
-              
             },
           ),
         ),
     );
-  
   }
-
 }
+
+
+
 
 class _CardSwipper extends StatelessWidget {
 
@@ -82,7 +102,7 @@ class _CardSwipper extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Container(
-      color: Colors.red,
+
       child: Swiper(
         itemCount: cardsList.length,
         viewportFraction: 0.8,
@@ -93,8 +113,9 @@ class _CardSwipper extends StatelessWidget {
             card: cardsList[index],
             onTap: () {
 
-              print(' Se presiona una carta id = ${cardsList[index]}');
-              // Navigator.of(context).pushNamed('detail', id);
+              bsCard.Card card = cardsList[index];
+
+              Navigator.of(context).pushNamed('details', arguments: { 'idCard': card.idCard } );
               
             },
           );
