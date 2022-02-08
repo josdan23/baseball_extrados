@@ -1,309 +1,284 @@
-import 'package:baseball_cards/controllers/cards_controller.dart';
-import 'package:baseball_cards/services/firebase/card_firebase_services.dart';
-import 'package:baseball_cards/services/firebase/user_firebase_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+
+import 'package:baseball_cards/controllers/cards_controller.dart';
 import 'package:baseball_cards/presentation/blocs/details_bloc/details_bloc.dart';
+import 'package:baseball_cards/services/firebase/card_firebase_services.dart';
+import 'package:baseball_cards/services/firebase/user_firebase_service.dart';
 
 class DetailsScreen extends StatelessWidget {
 
-  final CardController _controller = CardController( CardFirebaseServices(), UserFirebaseService());
-  
-  DetailsScreen({ Key? key }) : super(key: key);
+  final CardController controller = CardController(CardFirebaseServices(), UserFirebaseService());
+
+  DetailsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    
-    final arguments = ModalRoute.of(context)!.settings.arguments as Map;
 
+  
     return BlocProvider(
-      create: (context) {
-        final bloc = DetailsBloc( _controller );
-       
-        bloc.add(GetDetails(arguments['idCard']));
-
-        return bloc;
-      },
-      child: _DetailsCard()
+      create: (context) => DetailsBloc(controller),
+      child: _DetailsCard(),
     );
   }
 }
 
 class _DetailsCard extends StatelessWidget {
+  const _DetailsCard({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+    final _arguments = ModalRoute.of(context)!.settings.arguments as Map;
+    final _idCard = _arguments['idCard'];
 
     return Scaffold(
-    extendBodyBehindAppBar: true,
-    appBar: _createAppBar(context),
-    
-    body: BlocBuilder<DetailsBloc, DetailsState>(
-      builder: (context, state) {
 
-        if (state is LoadingDetails) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-
-        state as DetailsInitial;
-
-    
-
-        return Stack(    
-          children: [
-  
-            _ImageBackground( url: state.image ?? 'https://via.placeholder.com/200x350' ),
-  
-            //_GradientBackground(),
-  
-            SafeArea(
-              bottom: false,
-              child: Column(
-                
-                children: [
-  
-                  _Colection(),
-  
-                  Expanded(child: Container()),
-                  
-                  //todo: backgrond-card
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(42),
-                    
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          Colors.black54,
-                          colorRaritie( state.rarity ?? '' )
-                        ],
-                        stops: [
-                          0.2, 1
-                        ]
-                      ),
-                    ), 
-                    
-                    padding: EdgeInsets.all(24),
-                    
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        
-                        _Club( clubName: state.team ?? 'equipo', country: 'Argentina',),
-                            
-                        SizedBox(height: 40,),
-                              
-                        _NamePlayer( 
-                          firstName: state.firstNamePlayer ?? 'primernombre',
-                          lastName: state.lastNamePlayer ?? 'segundo nombre'
-                        ),
-                
-                        SizedBox(height: 25,),
-                        
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            _InfoItem( info: state.rolePlayer ?? 'role', icon: Icons.directions_run_rounded ),
-                            _InfoItem( info: state.serie ?? 'serie', icon: Icons.perm_contact_calendar_sharp),
-                            _InfoItem( info: state.rarity ?? 'rareza', icon: Icons.flag ),
-                          ],
-                        ),
-                        
-                        SizedBox(height: 54,),
-                
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        );
-
-      }
-    )
-  );
-}
-
-Color colorRaritie( String raritie) {
-
-    switch (raritie) {
-      case 'gold':
-        return const Color.fromRGBO(223, 205, 49 , 0.8);
-      case 'silver':
-        return const Color.fromRGBO(174, 172, 172 , 0.8); 
-      case 'bronze':
-        return const Color.fromRGBO(199, 116, 66 , 0.8);
-      
-      default:
-        return const Color.fromRGBO(174, 172, 172 , 0.8); 
-
-    }
-  }
-}
-
-AppBar _createAppBar(BuildContext context) {
-  return AppBar(
-        elevation: 0,
+      appBar: AppBar(
         backgroundColor: Colors.transparent,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.white,),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+        foregroundColor: Colors.black,
+        elevation: 0,
+      ),
+
+      body: BlocBuilder<DetailsBloc, DetailsState>(
+
+        builder: (context, state) {
+
+
+          if ( state is DetailsInitial){
+            
+            BlocProvider.of<DetailsBloc>(context).add( GetDetails(_idCard) );
+
+            return const Center(
+              child: CircularProgressIndicator()
+            );
+
+          }
+
+
+          if ( state is LoadingDetails){
+            return const Center(
+              child: CircularProgressIndicator()
+            );
+          }
+
+          state as LoadedDetails;
+
+          return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children:  [
+            
+                    const SizedBox(height: 8),
+            
+                    // Imagen de la carta
+                    _ImageCard(urlImage:  ( state.image == "") 
+                    ? 'https://via.placeholder.com/200x200'
+                    : state.image!),
+            
+                    const SizedBox(height: 28,),
+            
+            
+                    //Nombre del jugador
+                    Text( state.fullName , style: TextStyle(fontSize: 36, fontWeight: FontWeight.w600),),
+            
+                    const SizedBox(height: 12,),
+                    //Info de la carta
+                    _InfoCard(
+                      date: state.publicationDate!,
+                      rarity: state.rarity!,
+                      serie: state.serie!,
+                    ),
+            
+                    SizedBox(height: 24,),
+            
+                    _InfoPlayer(
+                      rolPlayer: state.rolePlayer!,
+                      teamPlayer: state.team!,
+                    ),
+            
+                    SizedBox(height: 24),
+            
+        
+                    _Collection( collectionList: state.collection!),
+
+                    SizedBox(height: 24,)
+            
+                  ],
+                ),
+              ),
+            );
+        },
+      ),
+
+    );
+  }
+}
+
+class _Collection extends StatelessWidget {
+
+  final List<String> collectionList;
+
+  const _Collection({
+    Key? key, 
+    required this.collectionList,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+
+    if (collectionList.length == 0) {
+      return Container();
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('De la colección',style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+            
+        SizedBox(height: 12),
+            
+        Wrap(
+          children: creteWidgetList(collectionList)
         ),
-      );
+      ],
+    );
   }
 
+  List<Widget> creteWidgetList( List<String> labelList ){
 
-class _Colection extends StatelessWidget {
-  
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          border: Border.all(width: 1.0, color: Colors.white),
-          borderRadius: BorderRadius.all(
-            Radius.circular(24),
-          ),
-      ),
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.star_rate_rounded, size: 16, color: Colors.white),
-          SizedBox(width: 8,),
-          Text('Colección', style: TextStyle(fontSize: 16, color: Colors.white),),
-          SizedBox(width: 8,),
-          Icon(Icons.star_rate_rounded, size: 16, color: Colors.white),
-        ],
-      )
+    return labelList.map<Widget>((e) => createItemCollection(e)).toList();
+
+  }
+
+  Widget createItemCollection(String text) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 8),
+      child: Chip(label: Text(text), backgroundColor: Colors.grey.shade200),
     );
   }
 }
 
-class _GradientBackground extends StatelessWidget {
+class _InfoPlayer extends StatelessWidget {
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Colors.black12,
-            Colors.black45,
-            //Color.fromRGBO(255,255,0, 0.3),
-          ],
-        ),
-      ),
-    );
-  }
-}
+  final String rolPlayer;
+  final String teamPlayer;
 
-class _InfoItem extends StatelessWidget {
-
-  final String info;
-  final IconData icon;
-
-  const _InfoItem({
-    required this.info, 
-    required this.icon
-  });
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        children: [
-          Icon( this.icon , color: Colors.white, size: 24,),
-          SizedBox(width: 8,),
-          Text( this.info, style: TextStyle(color: Colors.white, fontSize: 14))
-        ],
-      ),
-    );
-  }
-}
-
-class _Club extends StatelessWidget {
-
-  final String clubName;
-  final String country;
-
-  const _Club({
-    required this.clubName,
-    required this.country
-    });
-
+  const _InfoPlayer({
+    Key? key, 
+    required this.rolPlayer, 
+    required this.teamPlayer,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        FadeInImage(
-          height: 40,
-          placeholder: NetworkImage('https://via.placeholder.com/100x100'),
-          image: AssetImage('assets/boca_logo.png'),
-        ),
+        createItemInfoPlayer(this.rolPlayer, Icons.accessibility_new_outlined),
 
-        SizedBox(width: 8,),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text( clubName, style: TextStyle( fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600,),),
-            Text( country, style: TextStyle( fontSize: 16, color: Colors.white60, fontWeight: FontWeight.normal,),)
-          ],
-        ),
-         
+        SizedBox(width: 16,),
+
+        createItemInfoPlayer(this.teamPlayer, Icons.perm_contact_cal_outlined)
       ],
     );
   }
+
+  Container createItemInfoPlayer(String text, IconData iconData) {
+    return Container(
+        height: 140,
+        width: 130,
+        decoration: BoxDecoration(
+          color: Colors.grey.shade200,
+          borderRadius: BorderRadius.circular(18),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 16, top: 24, right: 16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(
+                iconData,
+                size: 48,
+                color: Colors.grey.shade700,
+              ),
+              SizedBox(height: 12,),
+
+              Text(text, style: TextStyle(fontSize: 15), textAlign: TextAlign.justify, maxLines: 2, overflow: TextOverflow.clip,
+              )
+            ],
+          ),
+        ),
+      );
+  }
 }
 
-class _NamePlayer extends StatelessWidget {
+class _InfoCard extends StatelessWidget {
 
-  final String firstName;
-  final String lastName;
+  final String date;
+  final String rarity;
+  final String serie;
 
-  const _NamePlayer({
-    required this.firstName, 
-    required this.lastName
-  });
+  const _InfoCard({
+    Key? key, 
+    required this.date, 
+    required this.rarity, 
+    required this.serie,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
       children: [
-        Text( this.firstName, style: TextStyle(fontSize: 26, color: Colors.white),),
-        Text( this.lastName, style: TextStyle(fontSize: 42, color: Colors.white, fontWeight: FontWeight.w500),),
+        _createNewItem(Icons.calendar_today_rounded, this.date),
+        _createNewItem(Icons.grade_outlined, this.rarity),
+        _createNewItem(Icons.qr_code_outlined, this.serie)
+      ],
+    );
+  }
+
+  Row _createNewItem(IconData iconData, String text) {
+    return Row(
+      children: [
+        Icon( iconData, size: 18, color: Colors.grey.shade600,),
+        const SizedBox(width: 8,),
+        Text(text, style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey.shade600),),
+        const SizedBox(width: 20,)
       ],
     );
   }
 }
 
-class _ImageBackground extends StatelessWidget {
+class _ImageCard extends StatelessWidget {
 
-  final String url;
+  final String urlImage;
 
-  const _ImageBackground({required this.url});
- 
+  const _ImageCard({
+    Key? key, 
+    required this.urlImage,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Container (  
-      
-      height: double.infinity,
-      child: FadeInImage(
-        placeholder: AssetImage('assets/placeholder.png'),
-        image: NetworkImage( url ),
-        fit: BoxFit.cover,
+    return Container(
+      height: 400,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.grey.shade300,
+        borderRadius: BorderRadius.circular(24),
       ),
+      clipBehavior: Clip.antiAlias,
+      child: FadeInImage(
+        placeholder: AssetImage('assets/baseball_loading.gif'),
+        image: NetworkImage(this.urlImage),
+        fit: BoxFit.cover,
+        
+      )
     );
   }
 }

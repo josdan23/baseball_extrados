@@ -26,11 +26,14 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
       print('Se obtuvo la carta ${card}');
 
      
-        
+      List<String> listCollection = card.collection.map((e) {
+        return e.description;
+      },).toList();
 
-      emit( DetailsInitial(
+      emit( LoadedDetails(
         serie: card.serie.description,
-        collection: card.collection.length == 0 ? 'Sin colección' : card.collection[0].description,
+        publicationDate: dateInFormatResumed(card.serie.publicationDate),
+        collection: listCollection,
         rarity: card.rarities.description,
         team: card.team.teamName,
         firstNamePlayer: card.player.firstName,
@@ -38,6 +41,12 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
         rolePlayer: card.rolPlayer.nameRole,
         image: card.image
       ));
-
   }
+}
+
+
+String dateInFormatResumed( DateTime dateTime) {
+
+  return '${dateTime.year}-${dateTime.month}-${dateTime.day}';
+
 }

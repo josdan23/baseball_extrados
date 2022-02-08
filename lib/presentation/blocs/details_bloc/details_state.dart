@@ -3,10 +3,14 @@ part of 'details_bloc.dart';
 @immutable
 abstract class DetailsState {}
 
-class DetailsInitial extends DetailsState {
+
+class DetailsInitial extends DetailsState{}
+
+class LoadedDetails extends DetailsState {
   
   final String? serie;
-  final String? collection; //FIXME: tiene que ser una lista
+  final String? publicationDate;
+  final List<String>? collection; 
   final String? rarity;
 
   final String? team;
@@ -16,8 +20,9 @@ class DetailsInitial extends DetailsState {
   final String? rolePlayer;
   final String? image;
 
-  DetailsInitial({
+  LoadedDetails({
     this.serie, 
+    this.publicationDate,
     this.collection, 
     this.rarity, 
     this.team, 
@@ -26,6 +31,8 @@ class DetailsInitial extends DetailsState {
     this.rolePlayer,
     this.image
   });
+
+  get fullName => '${this.lastNamePlayer} ${this.firstNamePlayer}';
 
 }
 
