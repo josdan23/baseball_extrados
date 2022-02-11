@@ -49,7 +49,7 @@ class HomeScreen extends StatelessWidget {
               ActionButton(
                 icon: Icons.add,
                 onPresss: () {
-                  print('agregar');
+                  Navigator.of(context).pushNamed('create_card');
                 },
               ),
 

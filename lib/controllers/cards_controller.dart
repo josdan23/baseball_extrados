@@ -1,8 +1,26 @@
 
+import 'package:baseball_cards/data/repositories/collection_repo.dart';
+import 'package:baseball_cards/data/repositories/player_repo.dart';
+import 'package:baseball_cards/data/repositories/raritie_repo.dart';
+import 'package:baseball_cards/data/repositories/roles_player_repo.dart';
+import 'package:baseball_cards/data/repositories/serie_repo.dart';
+import 'package:baseball_cards/data/repositories/team_repo.dart';
 import 'package:baseball_cards/data/repositories/user_repo.dart';
 import 'package:baseball_cards/models/card.dart' ;
 import 'package:baseball_cards/data/repositories/card_repo.dart';
+import 'package:baseball_cards/models/collection_card.dart';
+import 'package:baseball_cards/models/player.dart';
+import 'package:baseball_cards/models/rarities.dart';
+import 'package:baseball_cards/models/role_player.dart';
+import 'package:baseball_cards/models/serie.dart';
+import 'package:baseball_cards/models/team.dart';
 import 'package:baseball_cards/services/cards_api.dart';
+import 'package:baseball_cards/services/firebase/collection_firebase_service.dart';
+import 'package:baseball_cards/services/firebase/player_firebase_services.dart';
+import 'package:baseball_cards/services/firebase/rarities_firebase_services.dart';
+import 'package:baseball_cards/services/firebase/roles_player_firebase_service.dart';
+import 'package:baseball_cards/services/firebase/serie_firebase_services.dart';
+import 'package:baseball_cards/services/firebase/team_firebase_service.dart';
 import 'package:baseball_cards/services/firebase/user_firebase_service.dart';
 import 'package:baseball_cards/services/users_api.dart';
 
@@ -17,6 +35,37 @@ class CardController {
     _userRepo = UserRepo.getInstance(userDataSource);
   }
 
+
+  Future<Card> createCard( String lastName, String firstName, String idSerie, String idRarity, String idTeam, String idRolePlayer, List<String> idCollectionsList )  async  {
+
+    final Serie serie = await SerieRepo.getInstance( SerieFirebaseService() ).getSerieById(idSerie);
+    final Rarities rarity = await RaritieRepo.getInstance( RaritiesFirebaseServices()). getRaritieById(idRarity);
+    final Team team = await TeamRepo.getInstance( TeamFirebaseService() ).getTeamById(idTeam);
+    final RolePlayer rolePlayer = await RolePlayerRepo.getInstance( RolesPlayerFirebaseServices() ).getRolePlayerById( idRolePlayer);
+
+    Player player = Player( lastName: lastName, firstName: firstName);
+    Player playerSaved = await PlayerRepo.getInstance( PlayerFirebaseService()).save(player);
+
+    List<CollectionCard> collections = [];
+
+    for (var idCollection in idCollectionsList) {
+      
+      final CollectionCard coll  = await CollectionRepo.getInstance(CollectionFirebaseService()).getCollectionById( idCollection );
+
+      collections.add( coll );
+    }
+
+    final Card newCard = Card(
+        serie: serie,
+        player: playerSaved,
+        rarities: rarity,
+        team: team,
+        rolPlayer: rolePlayer ,
+        collection: collections);
+
+      return newCard;
+
+  }
 
   Future<List<Card>> getAllCards() async {
 
