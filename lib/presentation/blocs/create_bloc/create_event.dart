@@ -1,13 +1,11 @@
 part of 'create_bloc.dart';
 
 @immutable
-abstract class CreateEvent {
+abstract class CreateEvent {}
 
-}
 
-class LoadingOptions extends CreateEvent {
-  
-}
+class LoadingOptions extends CreateEvent {}
+
 
 class SubmitedForm extends CreateEvent{
   

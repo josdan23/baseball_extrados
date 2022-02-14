@@ -5,28 +5,13 @@ abstract class CreateState {}
 
 class InitialCreateState extends CreateState {}
 
-
-class FormCreateState extends CreateState {
-
-  bool isLoadingForm;
-  bool isFormSaved;
-
-  FormCreateState({
-    this.isFormSaved = false,
-    this.isLoadingForm = false
-  });
-
-}
-
-
-
 class LoadOptionsState extends CreateState {
 
-  List<Serie> serieOptions ;
-  List<Rarities> raritiesOptiones;
-  List<Team> teamOptions;
-  List<RolePlayer> roleplayerOptions;
-  List<CollectionCard> collectionOptiones;
+  Map<String, String> serieOptions ;
+  Map<String, String> raritiesOptiones;
+  Map<String, String> teamOptions;
+  Map<String, String> roleplayerOptions;
+  Map<String, String> collectionOptiones;
 
   LoadOptionsState( { 
     required this.serieOptions,
@@ -36,6 +21,16 @@ class LoadOptionsState extends CreateState {
     required this.collectionOptiones,
   });
 
-
 }
 
+class LoadingFormState extends CreateState {}
+
+class FailureProcessForm extends CreateState {
+  String msj = '';
+
+  FailureProcessForm({
+    required this.msj
+  });
+}
+
+class SuccessProcessForm extends CreateState {}
