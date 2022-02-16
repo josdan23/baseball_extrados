@@ -77,7 +77,7 @@ class _DetailsCard extends StatelessWidget {
                     const SizedBox(height: 8),
             
                     // Imagen de la carta
-                    _ImageCard(urlImage:  ( state.image == "") 
+                    _ImageCard(urlImage:  ( state.image == null || state.image == "") 
                     ? 'https://via.placeholder.com/200x200'
                     : state.image!),
             

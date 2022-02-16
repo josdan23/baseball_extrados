@@ -93,6 +93,8 @@ class HomeScreen extends StatelessWidget {
         ),
     );
   }
+
+
 }
 
 class _FilterChoiceChips extends StatelessWidget {
@@ -123,9 +125,9 @@ class _FilterChoiceChips extends StatelessWidget {
 
 class _CardSwipper extends StatelessWidget {
 
-  final List cardsList;
+  List cardsList;
 
-  const _CardSwipper({Key? key, required this.cardsList}) : super(key: key);
+  _CardSwipper({Key? key, required this.cardsList}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -70,22 +70,19 @@ class CreateBloc extends Bloc<CreateEvent, CreateState> {
 
         print('Se envio el formulario correcto');
 
+        final bsCard.Card newCard = await  _controller.createCard(
+          event.lastName, 
+          event.firstName, 
+          event.idSerie, 
+          event.idRarity, 
+          event.idTeam, 
+          event.idRolePlayer, 
+          event.idsCollectionList
+        );
 
-        await Future.delayed(const Duration(milliseconds: 50));
+        await _controller.saveNewCard(newCard);
 
-        // final bsCard.Card newCard = await  _controller.createCard(
-        //   event.lastName, 
-        //   event.firstName, 
-        //   event.idSerie, 
-        //   event.idRarity, 
-        //   event.idTeam, 
-        //   event.idRolePlayer, 
-        //   event.idsCollectionList
-        // );
-
-        // await _controller.saveNewCard(newCard);
-
-        emit( SuccessProcessForm());      
+        emit( SuccessProcessForm() );      
       }
 
       else {

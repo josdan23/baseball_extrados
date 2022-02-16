@@ -19,6 +19,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
 
   _onRequestCards(RequestCards event, Emitter<HomeState> emit) async {
+    
 
     print('solicitando cartas');
 
@@ -26,7 +27,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     
     final List<bscard.Card> listOfCards = await controller.getAllCards();
 
-    emit( LoadedCardsState( cards: listOfCards ));
+    emit( LoadedCardsState( cards: listOfCards ) );
 
   }
 }

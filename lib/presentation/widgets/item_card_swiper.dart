@@ -35,7 +35,7 @@ class CardItem extends StatelessWidget {
                 
 
                 _ImageInCard( 
-                  urlImage:  ( this.card.image == "") 
+                  urlImage:  ( this.card.image == null || this.card.image == "") 
                     ? 'https://via.placeholder.com/200x200'
                     : this.card.image!
                 ),

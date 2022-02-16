@@ -35,7 +35,9 @@ class CreateCardScreen extends StatelessWidget {
           body: BlocListener<CreateBloc, CreateState>(
             listener: (context, state) {
 
-              if (state is SuccessProcessForm){
+              print(state);
+
+              if (state is SuccessProcessForm ){
                 print('Creación de carta  exitosa');
 
 
@@ -88,7 +90,7 @@ class _CreateCardForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    String chosenPathImage = ''; 
+    String chosenPathImage = 'https://via.placeholder.com/200x200'; 
     String chosenFirstName = '';
     String chosenLastName = '';
     String chosenIdTeam = '';
