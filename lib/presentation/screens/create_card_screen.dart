@@ -146,8 +146,6 @@ class _CreateCardForm extends StatelessWidget {
                     },
                   ),
             
-                  IconButton(onPressed: (){}, icon: Icon(Icons.dangerous)),
-    
                   //* CAMPO PARA EL APELLIDO DEL JUGADOR
                   _TextField( 
                     label: 'Apellido del jugador',

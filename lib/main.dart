@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: 'create_card',
+      initialRoute: 'login',
       routes: {
         
         'login'     : ( _ ) => LoginScreen(),
