@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
 
@@ -13,6 +15,8 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
   DetailsBloc( this._controller ) : super(DetailsInitial()) {
     
     on<GetDetails>( _onGetDetails );
+    on<DeleteCardEvent>( _onDeleteCard ); 
+
   }
 
   void _onGetDetails(GetDetails event, Emitter<DetailsState> emit) async {
@@ -41,6 +45,16 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
         rolePlayer: card.rolPlayer.nameRole,
         image: card.image
       ));
+  }
+
+  FutureOr<void> _onDeleteCard(DeleteCardEvent event, Emitter<DetailsState> emit) {
+
+    print('Se queire borrar la carta ');
+
+    _controller.deleteCard( event.idCard );
+
+    emit( DeletedCard() );
+
   }
 }
 

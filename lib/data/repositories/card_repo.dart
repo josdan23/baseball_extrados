@@ -37,7 +37,15 @@ class CardRepo {
         final Card cardMapped = mapper.fromMap( value );
         cardMapped.idCard = key;
 
-        if ( !_cardList.contains( cardMapped ) ){
+        bool  add = true;
+        for (Card cardCached in _cardList) {
+          if ( cardCached.idCard == cardMapped.idCard ) {
+            add = false;
+            break;
+          }
+        }
+
+        if ( add ){
           _cardList.add( cardMapped );
         }
 

@@ -1,3 +1,4 @@
+import 'package:baseball_cards/presentation/widgets/action_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,7 +20,19 @@ class DetailsScreen extends StatelessWidget {
   
     return BlocProvider(
       create: (context) => DetailsBloc(controller),
-      child: _DetailsCard(),
+
+      child: BlocListener<DetailsBloc, DetailsState>(
+
+        listener: (context, state) {
+
+            if (state is DeletedCard ){
+              print('La carta se borro');
+              Navigator.pop(context);
+            }
+
+        },
+        child: _DetailsCard(),
+      ),
     );
   }
 }
@@ -41,6 +54,24 @@ class _DetailsCard extends StatelessWidget {
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.black,
         elevation: 0,
+        actions: <Widget>[
+
+          ActionButton(
+            icon: Icons.edit, 
+            onPresss: (){
+              print('CARTA PARA EDITAR');
+            }
+          ),
+
+          ActionButton(
+            icon: Icons.delete, 
+            onPresss: () {
+              BlocProvider.of<DetailsBloc>(context).add(DeleteCardEvent(_idCard));
+            }
+          ),
+
+
+        ],
       ),
 
       body: BlocBuilder<DetailsBloc, DetailsState>(
@@ -65,54 +96,63 @@ class _DetailsCard extends StatelessWidget {
             );
           }
 
-          state as LoadedDetails;
+          if ( state is DeletedCard ) {
+            // Navigator.of(context).pop();
+            print('carta borrada');
+          }
 
-          return SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children:  [
-            
-                    const SizedBox(height: 8),
-            
-                    // Imagen de la carta
-                    _ImageCard(urlImage:  ( state.image == null || state.image == "") 
-                    ? 'https://via.placeholder.com/200x200'
-                    : state.image!),
-            
-                    const SizedBox(height: 28,),
-            
-            
-                    //Nombre del jugador
-                    Text( state.fullName , style: TextStyle(fontSize: 36, fontWeight: FontWeight.w600),),
-            
-                    const SizedBox(height: 12,),
-                    //Info de la carta
-                    _InfoCard(
-                      date: state.publicationDate!,
-                      rarity: state.rarity!,
-                      serie: state.serie!,
-                    ),
-            
-                    SizedBox(height: 24,),
-            
-                    _InfoPlayer(
-                      rolPlayer: state.rolePlayer!,
-                      teamPlayer: state.team!,
-                    ),
-            
-                    SizedBox(height: 24),
-            
-        
-                    _Collection( collectionList: state.collection!),
+          if ( state is LoadedDetails ){
 
-                    SizedBox(height: 24,)
-            
-                  ],
+            return SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children:  [
+              
+                      const SizedBox(height: 8),
+              
+                      // Imagen de la carta
+                      _ImageCard(urlImage:  ( state.image == null || state.image == "") 
+                      ? 'https://via.placeholder.com/200x200'
+                      : state.image!),
+              
+                      const SizedBox(height: 28,),
+              
+              
+                      //Nombre del jugador
+                      Text( state.fullName , style: TextStyle(fontSize: 36, fontWeight: FontWeight.w600),),
+              
+                      const SizedBox(height: 12,),
+                      //Info de la carta
+                      _InfoCard(
+                        date: state.publicationDate!,
+                        rarity: state.rarity!,
+                        serie: state.serie!,
+                      ),
+              
+                      SizedBox(height: 24,),
+              
+                      _InfoPlayer(
+                        rolPlayer: state.rolePlayer!,
+                        teamPlayer: state.team!,
+                      ),
+              
+                      SizedBox(height: 24),
+              
+          
+                      _Collection( collectionList: state.collection!),
+
+                      SizedBox(height: 24,)
+              
+                    ],
+                  ),
                 ),
-              ),
-            );
+              );
+          }
+
+          return Container();
+
         },
       ),
 

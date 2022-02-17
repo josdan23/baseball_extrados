@@ -38,3 +38,5 @@ class LoadedDetails extends DetailsState {
 
 
 class LoadingDetails extends DetailsState{}
+
+class DeletedCard extends DetailsState{}

@@ -120,6 +120,7 @@ class CardController {
     await  _cardRepo.delete( cardId );
 
     final userAuth = _userRepo.userAuthenticated;
+    print(userAuth);
     userAuth.cardList.remove( cardId );
     _userRepo.update(userAuth.id!, userAuth);
 

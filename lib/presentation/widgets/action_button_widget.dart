@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class ActionButton extends StatelessWidget {
 
   final IconData icon;
-  final Function() onPresss;
+  final void Function() onPresss;
 
   const ActionButton({ 
     Key? key, 

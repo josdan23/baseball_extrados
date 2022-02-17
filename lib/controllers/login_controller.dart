@@ -21,8 +21,9 @@ class LoginController {
       if ( user.mail == email ) {
         if (user.password == password ) {
 
-          _logger.d('USER_ID: ${user.mail} AUTHENTICATED!');
+          _logger.d('USER_ID: ${user} AUTHENTICATED!');
           _repo.userAuthenticated = user;
+          print(_repo.userAuthenticated);
           
           return true;
         }

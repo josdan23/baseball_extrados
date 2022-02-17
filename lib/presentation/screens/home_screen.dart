@@ -12,12 +12,22 @@ import 'package:baseball_cards/services/firebase/user_firebase_service.dart';
 import 'package:baseball_cards/services/firebase/card_firebase_services.dart';
 
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({ Key? key }) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+
+  late Bloc bloc;
 
   @override
   Widget build(BuildContext context) {
 
+
+    
     final CardController controller = CardController( CardFirebaseServices(), UserFirebaseService() );
 
     return  BlocProvider(
@@ -49,7 +59,12 @@ class HomeScreen extends StatelessWidget {
               ActionButton(
                 icon: Icons.add,
                 onPresss: () {
-                  Navigator.of(context).pushNamed('create_card');
+                  Navigator.of(context).pushNamed('create_card').then( ( _ ) {
+                    
+                    refresh(context);
+
+                  });
+
                 },
               ),
 
@@ -59,12 +74,13 @@ class HomeScreen extends StatelessWidget {
           bottomNavigationBar: const BottonNavBarWidget(index: 0),
     
           body: BlocBuilder<HomeBloc, HomeState>(
-
             builder: (context, state) {
 
               
-              if( state is HomeInitialState )
-                BlocProvider.of<HomeBloc>(context).add(RequestCards());
+              if( state is HomeInitialState ){
+                bloc = BlocProvider.of<HomeBloc>(context);
+                bloc.add(RequestCards());
+              }
 
               if( state is LoadingCardsState ) {
 
@@ -94,7 +110,17 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  void refresh(BuildContext context) {
 
+    bloc.add(RequestCards());
+
+
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 }
 
 class _FilterChoiceChips extends StatelessWidget {
@@ -123,35 +149,46 @@ class _FilterChoiceChips extends StatelessWidget {
 
 
 
-class _CardSwipper extends StatelessWidget {
+class _CardSwipper extends StatefulWidget {
 
-  List cardsList;
+  List cardsList = [];
 
   _CardSwipper({Key? key, required this.cardsList}) : super(key: key);
 
   @override
+  State<_CardSwipper> createState() => _CardSwipperState();
+}
+
+class _CardSwipperState extends State<_CardSwipper> {
+
+  @override
   Widget build(BuildContext context) {
 
+
     return Swiper(
-      itemCount: cardsList.length,
+      itemCount: widget.cardsList.length,
       viewportFraction: 0.8,
       scale: 0.9,
       loop: false,
       indicatorLayout: PageIndicatorLayout.WARM,
-      
       itemBuilder: (BuildContext context,int index) {
+
         return CardItem(
-          card: cardsList[index],
+          card: widget.cardsList[index],
           onTap: () {
 
-            bsCard.Card card = cardsList[index];
+            bsCard.Card card = widget.cardsList[index];
 
-            Navigator.of(context).pushNamed('details', arguments: { 'idCard': card.idCard } );
+            Navigator.of(context).pushNamed('details', arguments: { 'idCard': card.idCard } ).then((value) {
+
+
+              BlocProvider.of<HomeBloc>(context).add(RequestCards());
+
+            });
             
           },
         );
       }
     );
   }
-
 }

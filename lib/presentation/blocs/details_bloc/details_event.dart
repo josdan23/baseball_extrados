@@ -9,3 +9,20 @@ class GetDetails extends DetailsEvent {
   GetDetails(this.idCard);
 
 }
+
+class DeleteCardEvent extends DetailsEvent {
+
+  final String idCard;
+
+  DeleteCardEvent(this.idCard);
+
+}
+
+
+class EditCard extends DetailsEvent {
+
+  final String idCard;
+
+  EditCard( this.idCard );
+
+}
