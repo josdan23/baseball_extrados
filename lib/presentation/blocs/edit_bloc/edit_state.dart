@@ -19,6 +19,7 @@ class LoadedOptionsState extends EditState{
 
 } 
 
+
 class InfoOfCard {
   final String firstName;
   final String lastName;
@@ -58,3 +59,10 @@ class OptionsOfCard {
   });
   
 }
+
+
+class UpdatingInfo extends EditState {}
+
+class SuccessUpdate extends EditState {}
+
+class ErrorUpdate extends EditState {}

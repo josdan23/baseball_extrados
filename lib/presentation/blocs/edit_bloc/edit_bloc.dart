@@ -26,6 +26,7 @@ class EditBloc extends Bloc<EditEvent, EditState> {
   EditBloc( this._controller ) : super(EditInitial()) {
 
     on<GetInfoAndOptionsEvent>( _onGetInfoAndOptions);
+    on<SubmitFormUpdateEvent> ( _onSumitFormUpdateEvent );
   
   }
 
@@ -44,8 +45,6 @@ class EditBloc extends Bloc<EditEvent, EditState> {
 
 
   InfoOfCard _mapToInfoOfCard( Card card ) {
-
-  
 
     return InfoOfCard(
       firstName: card.player.firstName, 
@@ -75,6 +74,19 @@ class EditBloc extends Bloc<EditEvent, EditState> {
       rolOptions: Map.fromIterables( rolePlayerOptions.map((e) => e.idRolePlayer!).toList(), rolePlayerOptions.map((e) => e.nameRole).toList()),
       collectionOptions: Map.fromIterables( collectionOptions.map((e) => e.idCollection!).toList(), collectionOptions.map((e) => e.description).toList()),
     );
+  }
+
+  FutureOr<void> _onSumitFormUpdateEvent(SubmitFormUpdateEvent event, Emitter<EditState> emit) async {
+
+    emit( UpdatingInfo() );
+
+    // await _controller.updateCard(cardId, cardToUpdate);
+
+    await Future.delayed(Duration(seconds: 2));
+
+    emit( SuccessUpdate() );
+    // emit( ErrorUpdate());    
+
   }
 }
 

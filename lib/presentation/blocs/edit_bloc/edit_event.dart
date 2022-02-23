@@ -10,3 +10,28 @@ class GetInfoAndOptionsEvent extends EditEvent{
   GetInfoAndOptionsEvent(this.idCard);
 
 }
+
+
+class SubmitFormUpdateEvent extends EditEvent {
+
+  final String image;
+  final String firstName;
+  final String lastName;
+  final String idTeam;
+  final String idRol;
+  final String idRarity;
+  final String idSerie;
+  final List<String> idCollectionList;
+
+  SubmitFormUpdateEvent({
+    required this.image, 
+    required this.firstName, 
+    required this.lastName, 
+    required this.idTeam, 
+    required this.idRol, 
+    required this.idRarity, 
+    required this.idSerie, 
+    required this.idCollectionList
+  });
+
+}
