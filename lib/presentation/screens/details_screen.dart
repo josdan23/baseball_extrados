@@ -59,8 +59,11 @@ class _DetailsCard extends StatelessWidget {
           ActionButton(
             icon: Icons.edit, 
             onPresss: (){
-              print('CARTA PARA EDITAR');
+              
+              Navigator.of(context).pushNamed('edit_card', arguments: { 'idCard': _idCard } );
+
             }
+
           ),
 
           ActionButton(
@@ -158,6 +161,8 @@ class _DetailsCard extends StatelessWidget {
 
     );
   }
+
+
 }
 
 class _Collection extends StatelessWidget {

@@ -6,7 +6,7 @@ class DropDownMenuWidget extends StatelessWidget {
   final List<String> listOfItems;
   final String? labelText;
   final Icon? icon;
-  String dropdownItemValue = '';
+  String? dropdownItemValue;
   final Function(String)? function;
 
   DropDownMenuWidget({
@@ -14,10 +14,12 @@ class DropDownMenuWidget extends StatelessWidget {
     this.labelText = '',
     this.icon,
     required this.listOfItems,
-    this.function
-  }) : super(key: key) {
-    
-    dropdownItemValue = listOfItems[0];
+    this.function,
+    this.dropdownItemValue,
+  }) : super(key: key){
+
+    this.dropdownItemValue ??= listOfItems[0];
+
   }
 
 

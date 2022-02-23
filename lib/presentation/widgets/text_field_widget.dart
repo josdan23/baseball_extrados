@@ -8,19 +8,22 @@ class TextFieldWidget extends StatelessWidget {
   final IconData icon;
   final Function(String) onChanged;
   final bool obscureText;
+  final String? intialValue;
 
   const TextFieldWidget({
     Key? key, 
     required this.text, 
     required this.icon, 
     required this.onChanged,
-    this.obscureText = false
+    this.obscureText = false,
+    this.intialValue
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
     return TextFormField(
+      initialValue: this.intialValue ,
       autocorrect: false,
       obscureText: obscureText,
       decoration: InputDecoration(

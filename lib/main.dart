@@ -1,4 +1,5 @@
 import 'package:baseball_cards/presentation/screens/create_card_screen.dart';
+import 'package:baseball_cards/presentation/screens/edit_card_screen.dart';
 import 'package:baseball_cards/presentation/screens/perfil_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -23,11 +24,12 @@ class MyApp extends StatelessWidget {
       initialRoute: 'login',
       routes: {
         
-        'login'     : ( _ ) => LoginScreen(),
-        'home'      : ( _ ) => HomeScreen(),
-        'details'   : ( _ ) => DetailsScreen(),
-        'create_card'    : ( _ ) => CreateCardScreen(),
-        'perfil'    : ( _ ) => PerfilScreen(),
+        'login'        : ( _ ) => LoginScreen(),
+        'home'         : ( _ ) => HomeScreen(),
+        'details'      : ( _ ) => DetailsScreen(),
+        'create_card'  : ( _ ) => CreateCardScreen(),
+        'perfil'       : ( _ ) => PerfilScreen(),
+        'edit_card'    : ( _ ) => EditCardScreen(),
       },
 
 
