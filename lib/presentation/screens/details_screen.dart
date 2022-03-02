@@ -1,3 +1,5 @@
+
+
 import 'package:baseball_cards/presentation/widgets/action_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,7 +62,12 @@ class _DetailsCard extends StatelessWidget {
             icon: Icons.edit, 
             onPresss: (){
               
-              Navigator.of(context).pushNamed('edit_card', arguments: { 'idCard': _idCard } );
+              Navigator.of(context).pushNamed('edit_card', arguments: { 'idCard': _idCard } ).then((value){
+
+                print('actualizado');
+                BlocProvider.of<DetailsBloc>(context).add(GetDetails(_idCard));
+
+              });
 
             }
 
@@ -161,6 +168,7 @@ class _DetailsCard extends StatelessWidget {
 
     );
   }
+
 
 
 }

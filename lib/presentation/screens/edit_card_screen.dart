@@ -18,6 +18,7 @@ class EditCardScreen extends StatelessWidget {
 
   const EditCardScreen({Key? key}) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
 
@@ -212,6 +213,7 @@ class _FormEditCardState extends State<_FormEditCard> {
 
                       BlocProvider.of<EditBloc>(context).add(
                         SubmitFormUpdateEvent(
+                          idCard: _idCard,
                           image: chosenImage,
                           firstName: chosenFirstName,
                           lastName: chosenLastName,

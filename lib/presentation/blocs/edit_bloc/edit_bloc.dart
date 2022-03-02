@@ -80,9 +80,17 @@ class EditBloc extends Bloc<EditEvent, EditState> {
 
     emit( UpdatingInfo() );
 
-    // await _controller.updateCard(cardId, cardToUpdate);
-
-    await Future.delayed(Duration(seconds: 2));
+    
+    await _controller.updateCard(
+      event.idCard,
+      event.firstName,
+      event.lastName,
+      event.idTeam,
+      event.idRol,
+      event.idRarity,
+      event.idSerie,
+      event.idCollectionList,
+    );
 
     emit( SuccessUpdate() );
     // emit( ErrorUpdate());    

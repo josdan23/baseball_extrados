@@ -128,7 +128,50 @@ class CardController {
   }
 
 
-  Future<Card> updateCard( String cardId, Card cardToUpdate ) async {
+  Future<Card> updateCard( String cardId, 
+    String firstName, 
+    String lastName, 
+    String idTeam, 
+    String idRol, 
+    String idRaririty, 
+    String idSerie, 
+    List<String> idCollections ) async {
+
+    if ( firstName == null ) print('Primer nombre invalido');
+
+    if ( lastName == null) print('Apellido invalido');
+
+    final Team team = await TeamRepo.getInstance(TeamFirebaseService()).getTeamById(idTeam);
+    if (team == null) print( 'el team es invalido');
+
+    final RolePlayer role = await RolePlayerRepo.getInstance(RolesPlayerFirebaseServices()).getRolePlayerById(idRol);
+    if ( role == null) print( 'El role es invalido');
+
+    final Rarities rarity = await RaritieRepo.getInstance(RaritiesFirebaseServices()).getRaritieById(idRaririty) ;
+    if (rarity == null) print('La rareza es invalida');
+
+    final Serie serie = await SerieRepo.getInstance(SerieFirebaseService()).getSerieById(idSerie);
+    if (serie == null) print('serie invalida');
+    
+    List<CollectionCard> collectionsList = [];
+    
+
+    for (var id in idCollections) {
+      
+      CollectionCard collection = await CollectionRepo.getInstance(CollectionFirebaseService()).getCollectionById(id);
+
+      if ( collection == null) {
+        print( 'collecion invalida');
+      }
+      else 
+        collectionsList.add( collection );
+
+    }
+
+
+    final player = Player(firstName: firstName, lastName: lastName);
+
+    final cardToUpdate = Card(serie: serie, player: player, rarities: rarity , team: team, rolPlayer: role, collection: collectionsList);
 
     final cardUpdated = await  _cardRepo.update(cardId, cardToUpdate );
 
