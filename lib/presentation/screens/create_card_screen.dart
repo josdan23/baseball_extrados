@@ -1,5 +1,8 @@
+import 'package:baseball_cards/presentation/util.dart';
+import 'package:baseball_cards/services/image_store_server.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
  
 import 'package:baseball_cards/controllers/cards_controller.dart';
 import 'package:baseball_cards/presentation/blocs/create_bloc/create_bloc.dart';
@@ -67,30 +70,30 @@ class CreateCardScreen extends StatelessWidget {
 }
 
 
-class _CreateCardForm extends StatelessWidget {
+class _CreateCardForm extends StatefulWidget {
 
-  Map<String, String> teamOptions;
-  Map<String, String> rarityOptions;
-  Map<String, String> rolePlayerOptions;
-  Map<String, String> serieOptions;
-  Map<String, String> collectionOptions;
 
-  
+  @override
+  State<_CreateCardForm> createState() => _CreateCardFormState();
+}
 
-  _CreateCardForm({
-    Key? key, 
-    this.teamOptions = const {}, 
-    this.rarityOptions = const {}, 
-    this.rolePlayerOptions = const {}, 
-    this.serieOptions = const {}, 
-    this.collectionOptions = const {}
-  }) : super(key: key);
+class _CreateCardFormState extends State<_CreateCardForm> {
 
+
+  Map<String, String> teamOptions = {};
+  Map<String, String> rarityOptions = {};
+  Map<String, String> rolePlayerOptions = {};
+  Map<String, String> serieOptions = {};
+  Map<String, String> collectionOptions = {};
+
+
+  String? pathImageSelected;
 
   @override
   Widget build(BuildContext context) {
 
-    String chosenPathImage = 'https://via.placeholder.com/200x200'; 
+
+    String? chosenPathImage = pathImageSelected;
     String chosenFirstName = '';
     String chosenLastName = '';
     String chosenIdTeam = '';
@@ -130,11 +133,12 @@ class _CreateCardForm extends StatelessWidget {
                     alignment: AlignmentDirectional.topEnd,
                     children: [
 
-                      const ImageCardWidget(urlImage: 'https://via.placeholder.com/200x200',),
+                      ImageCardWidget(urlImage: pathImageSelected,),
                     
-                      IconButton(icon: Icon(Icons.photo), onPressed: () {
+                      IconButton(icon: Icon(Icons.photo), onPressed: () async {
 
-                        chosenPathImage = 'https://via.placeholder.com/200x200';
+                        pathImageSelected = await Util.getPathImagePicked();
+                        setState(() {});
 
                       },)
                     ],
@@ -290,7 +294,6 @@ class _CreateCardForm extends StatelessWidget {
     );
 
   }
-
 }
 
 class _CollectionList extends StatelessWidget {

@@ -9,7 +9,7 @@ class LoadingOptions extends CreateEvent {}
 
 class SubmitedForm extends CreateEvent{
   
-    final String pathImage;
+    final String? pathImage;
     final String firstName;
     final String lastName;
     final String idTeam;

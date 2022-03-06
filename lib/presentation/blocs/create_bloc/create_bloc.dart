@@ -77,7 +77,8 @@ class CreateBloc extends Bloc<CreateEvent, CreateState> {
           event.idRarity, 
           event.idTeam, 
           event.idRolePlayer, 
-          event.idsCollectionList
+          event.idsCollectionList,
+          event.pathImage
         );
 
         await _controller.saveNewCard(newCard);

@@ -22,6 +22,7 @@ import 'package:baseball_cards/services/firebase/roles_player_firebase_service.d
 import 'package:baseball_cards/services/firebase/serie_firebase_services.dart';
 import 'package:baseball_cards/services/firebase/team_firebase_service.dart';
 import 'package:baseball_cards/services/firebase/user_firebase_service.dart';
+import 'package:baseball_cards/services/image_store_server.dart';
 import 'package:baseball_cards/services/users_api.dart';
 
 
@@ -36,7 +37,7 @@ class CardController {
   }
 
 
-  Future<Card> createCard( String lastName, String firstName, String idSerie, String idRarity, String idTeam, String idRolePlayer, List<String> idCollectionsList )  async  {
+  Future<Card> createCard( String lastName, String firstName, String idSerie, String idRarity, String idTeam, String idRolePlayer, List<String> idCollectionsList, String? pathImage )  async  {
 
     final Serie serie = await SerieRepo.getInstance( SerieFirebaseService() ).getSerieById(idSerie);
     final Rarities rarity = await RaritieRepo.getInstance( RaritiesFirebaseServices()). getRaritieById(idRarity);
@@ -55,13 +56,21 @@ class CardController {
       collections.add( coll );
     }
 
+    final  imageStoreServer = ImageStoreServer();
+    
+    String? urlImage;
+    if ( pathImage != null )
+      urlImage =  await imageStoreServer.uploadImageToServer(pathImage);
+
     final Card newCard = Card(
         serie: serie,
         player: playerSaved,
         rarities: rarity,
         team: team,
         rolPlayer: rolePlayer ,
-        collection: collections);
+        collection: collections,
+        image:  urlImage
+      );
 
       return newCard;
 

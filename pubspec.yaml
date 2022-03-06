@@ -39,7 +39,7 @@ dependencies:
   http: ^0.13.4
   logger: ^1.1.0
   flutter_bloc: ^8.0.1
-  # fluttertoast: ^8.0.8
+  image_picker: ^0.8.4+10
 
 dev_dependencies:
   flutter_test:
