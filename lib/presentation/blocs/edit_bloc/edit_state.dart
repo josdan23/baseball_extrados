@@ -14,10 +14,10 @@ class LoadedOptionsState extends EditState{
   LoadedOptionsState({
     required this.infoOfCard,
     required this.options,
-
   });
 
 } 
+
 
 
 class InfoOfCard {
@@ -28,7 +28,7 @@ class InfoOfCard {
   final String idRarity;
   final String idSerie;
   final List<String> listOfIdCollections;
-  final String image;
+  final String? image;
 
   InfoOfCard({
     required this.firstName,
@@ -41,6 +41,7 @@ class InfoOfCard {
     required this.image,
   });
 }
+
 
 class OptionsOfCard {
 

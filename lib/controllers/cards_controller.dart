@@ -144,7 +144,8 @@ class CardController {
     String idRol, 
     String idRaririty, 
     String idSerie, 
-    List<String> idCollections ) async {
+    List<String> idCollections,
+    String? image ) async {
 
     if ( firstName == null ) print('Primer nombre invalido');
 
@@ -180,7 +181,13 @@ class CardController {
 
     final player = Player(firstName: firstName, lastName: lastName);
 
-    final cardToUpdate = Card(serie: serie, player: player, rarities: rarity , team: team, rolPlayer: role, collection: collectionsList);
+    String? pathImage;
+    if( image != null) {
+      final imageStoreServer = ImageStoreServer();
+      pathImage = await imageStoreServer.uploadImageToServer(image);
+    }
+
+    final cardToUpdate = Card(serie: serie, player: player, rarities: rarity , team: team, rolPlayer: role, collection: collectionsList, image: pathImage);
 
     final cardUpdated = await  _cardRepo.update(cardId, cardToUpdate );
 

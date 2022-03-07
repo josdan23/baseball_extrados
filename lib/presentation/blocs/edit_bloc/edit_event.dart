@@ -15,7 +15,7 @@ class GetInfoAndOptionsEvent extends EditEvent{
 class SubmitFormUpdateEvent extends EditEvent {
 
   final String idCard;
-  final String image;
+  final String? image;
   final String firstName;
   final String lastName;
   final String idTeam;

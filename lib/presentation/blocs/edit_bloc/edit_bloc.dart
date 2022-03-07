@@ -54,7 +54,7 @@ class EditBloc extends Bloc<EditEvent, EditState> {
       idRarity: card.rarities.idRarities!, 
       idSerie: card.serie.idSerie!, 
       listOfIdCollections: card.collection.map((e) => e.idCollection!).toList(), 
-      image: card.image ?? 'https://via.placeholder.com/200x200' // FIXME: modificar esta parta para no harcodear la imagen
+      image: card.image,
     );
   }
 
@@ -90,6 +90,7 @@ class EditBloc extends Bloc<EditEvent, EditState> {
       event.idRarity,
       event.idSerie,
       event.idCollectionList,
+      event.image
     );
 
     emit( SuccessUpdate() );

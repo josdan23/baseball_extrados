@@ -140,6 +140,7 @@ class CardRepo {
           oneCard.rolPlayer = cardUpdated.rolPlayer;
           oneCard.collection = cardUpdated.collection;
           oneCard.image = cardUpdated.image;
+          
           return oneCard;
         }
       }

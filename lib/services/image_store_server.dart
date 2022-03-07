@@ -34,6 +34,8 @@ class ImageStoreServer  {
   }
 
   File? getImageFile(String imagePath) {
+    
+    if (imagePath.contains('http')) return null;
 
     return File.fromUri( Uri(path: imagePath));
   }
