@@ -61,9 +61,6 @@ void main() {
 
     await controller.exchangeCard('-Ms-p_Gz-MISJs0kS587', '-MukRwAJsR--9N4HqPu7');
 
-    
-
-
   });
 
 }
